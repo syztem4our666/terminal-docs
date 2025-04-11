@@ -1,0 +1,198 @@
+---
+title: AWK
+description: Linux Terminal Util
+---
+#### AWK (GNU AWK)
+
+AWK, or gawk (GNU AWK), is a powerful text-processing tool that can be used for text search, modification, and reporting tasks. It is widely used for extracting and manipulating data in files and streams.
+
+#### Syntax
+
+```bash
+awk <options> 'Program' Input-File1 Input-File2 ...
+awk -f PROGRAM-FILE <options> Input-File1 Input-File2 ...
+```
+
+#### Options
+
+- **-F FS**  
+  `--field-separator FS`  
+  Use FS for the input field separator (the value of the `FS` predefined variable).
+
+- **-f PROGRAM-FILE**  
+  `--file PROGRAM-FILE`  
+  Read the awk program source from the file `PROGRAM-FILE`, instead of from the first command line argument.
+
+- **-mf NNN**  
+  **-mr NNN**  
+  These flags set the maximum number of fields (`-mf`) and the maximum record size (`-mr`). These are ignored by `gawk` since it has no predefined limits.
+
+- **-v VAR=VAL**  
+  `--assign VAR=VAL`  
+  Assign the variable `VAR` the value `VAL` before program execution begins.
+
+- **-W traditional**  
+  `--traditional`  
+  Use compatibility mode, where `gawk` extensions are turned off.
+
+- **-W lint**  
+  `--lint`  
+  Issue warnings about dubious or non-portable awk constructs.
+
+- **-W lint-old**  
+  `--lint-old`  
+  Warn about constructs not available in the original V.7 Unix version of awk.
+
+- **-W posix**  
+  `--posix`  
+  Use POSIX compatibility mode, turning off `gawk` extensions and applying additional restrictions.
+
+- **-W re-interval**  
+  `--re-interval`  
+  Allow interval expressions in regular expressions.
+
+- **-W source=PROGRAM-TEXT**  
+  `--source PROGRAM-TEXT`  
+  Use `PROGRAM-TEXT` as the awk program source code, allowing mixing command-line source code with file-based code.
+
+- **--**  
+  This signals the end of options, ensuring that further arguments can be passed to the awk program itself.
+
+#### Program Structure
+
+An AWK program consists of patterns and actions. Each pattern triggers an action when matched.
+
+```bash
+pattern { action }
+```
+
+For example, to display lines from a file that contain the string "123", "abc", or "some text":
+
+```bash
+awk '/123/ { print $0 }
+     /abc/ { print $0 }
+     /some text/ { print $0 }' samplefile
+```
+
+#### Special Patterns
+
+- **/Regular Expression/**  
+  Matches any input record containing the specified text.
+- **Pattern && Pattern**  
+  Logical AND between patterns.
+- **Pattern || Pattern**  
+  Logical OR between patterns.
+- **! Pattern**  
+  Logical NOT for a pattern.
+- **Pattern ? Pattern : Pattern**  
+  Conditional expression (if, then, else).
+- **Pattern1, Pattern2**  
+  A range from Pattern1 to Pattern2.
+- **BEGIN**  
+  Executes before the input file is read.
+- **END**  
+  Executes after the input file is read.
+
+#### Built-in Variables
+
+- **CONVFMT**  
+  Format used for converting numbers (default: `%.6g`).
+- **FS**  
+  Field separator for input (default is space or tab).
+- **NF**  
+  Number of fields in the current record.
+- **NR**  
+  Ordinal number of the current record.
+- **FNR**  
+  Ordinal number of the current record in the current file.
+- **FILENAME**  
+  Name of the current input file.
+- **RS**  
+  Input record separator (default is newline).
+- **OFS**  
+  Output field separator (default is space).
+- **ORS**  
+  Output record separator (default is newline).
+- **OFMT**  
+  Output format for numbers (default is `%.6g`).
+- **SUBSEP**  
+  Separator for multiple subscripts (default is `034`).
+- **ARGC**  
+  Argument count (assignable).
+- **ARGV**  
+  Array of arguments, assignable; non-null members are taken as filenames.
+- **ENVIRON**  
+  Array of environment variables.
+
+#### Examples
+
+1. Print the fifth item from each line of an `ls -l` listing:
+
+```bash
+ls -l | awk '{print $5}'
+```
+
+2. Print the row number and the first item from each line:
+
+```bash
+awk '{print NR "- " $1 }' samplefile.txt
+```
+
+3. Print the first item and the third-last item from each line:
+
+```bash
+awk '{print $1, $(NF-2) }' samplefile.txt
+```
+
+4. Remove blank lines from a file:
+
+```bash
+awk 'NF > 0' data.txt
+```
+
+5. Print the length of the longest input line:
+
+```bash
+awk '{ if (length($0) > max) max = length($0) }
+      END { print max }' data.txt
+```
+
+6. Print seven random numbers from 0 to 100:
+
+```bash
+awk 'BEGIN { for (i = 1; i <= 7; i++) print int(101 * rand()) }'
+```
+
+7. Print the total number of bytes used by files:
+
+```bash
+ls -lg FILES | awk '{ x += $5 } ; END { print "total bytes: " x }'
+```
+
+8. Print the average file size of all `.PNG` files in a directory:
+
+```bash
+ls -l *.png | gawk '{sum += $5; n++;} END {print sum/n;}'
+```
+
+9. Count the lines in a file:
+
+```bash
+awk 'END { print NR }' data.txt
+```
+
+#### Comparison with grep
+
+- `grep` searches files for lines that match a pattern, whereas `awk` performs actions on matching lines.
+- Example: To search for the word "Dec" in a file:
+
+```bash
+grep Dec filename
+```
+
+- To search for the word "Dec" in the sixth field using `awk`:
+
+```bash
+awk '$6 == "Dec"' filename
+```
+

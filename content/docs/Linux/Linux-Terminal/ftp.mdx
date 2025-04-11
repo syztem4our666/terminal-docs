@@ -1,0 +1,59 @@
+---
+title: FTP
+description: Linux Terminal Util
+---
+### **FTP (File Transfer Protocol)**
+
+FTP is a standard network protocol used for transferring files between a client and a server over a TCP/IP-based network.
+
+### **Syntax**
+```bash
+ftp [-options] [-s:filename] [-w:buffer] [host]
+```
+
+### **Key Options:**
+- **-s:filename**: Run a text file containing FTP commands.
+- **host**: The hostname or IP address of the FTP server. Can include a username and password, e.g., `ftp://username:password@hostname`.
+- **-g**: Disable filename wildcards.
+- **-n**: Disable auto-login.
+- **-i**: Disable interactive prompts during FTP (e.g., no confirmation prompts).
+- **-v**: Hide remote server responses.
+- **-w:buffer**: Set the buffer size (default is 4096).
+- **-d**: Enable debug mode.
+- **-a**: Use any local interface when binding the data connection.
+
+### **FTP Commands:**
+
+- **append local-file [remote-file]**: Append a local file to the remote file.
+- **ascii**: Set file transfer type to ASCII (default), for text files.
+- **binary**: Set file transfer type to binary, for executable or binary files.
+- **bye**: Exit the FTP session.
+- **cd**: Change remote directory.
+- **close**: Close the FTP session and return to the command prompt.
+- **debug**: Toggle debugging mode (displays all commands sent).
+- **delete remote-file**: Delete a file from the remote host.
+- **dir [remote-directory] [local-file]**: List files and subdirectories in a remote directory.
+- **get remote-file [local-file]**: Download a remote file to the local machine.
+- **hash**: Display a hash (#) for each 2K data block transferred.
+- **lcd [directory]**: Change the local working directory.
+- **mget remote-files [ ...]**: Download multiple remote files.
+- **mkdir directory**: Create a directory on the remote host.
+- **mput local-files [ ...]**: Upload multiple local files to the remote host.
+- **open host [port]**: Connect to the specified FTP server.
+- **put local-file [remote-file]**: Upload a local file to the remote host.
+- **pwd**: Print the current working directory on the remote server.
+- **quit**: Exit the FTP session and return to the local shell.
+- **status**: Display current status of FTP connections.
+- **type [type-name]**: Set file transfer type (binary or ASCII).
+- **user username [password] [account]**: Log in as a specified user to the remote FTP server.
+
+### **Examples:**
+1. **Connecting to a server:**
+   ```bash
+   ftp ftp://username:password@hostname
+   ```
+
+2. **Connect to the speedtest FTP server as 'anonymous' and with no password:**
+   ```bash
+   ftp ftp://anonymous:@speedtest.tele2.net
+   ```

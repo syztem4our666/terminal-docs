@@ -1,0 +1,12 @@
+{
+  "title": "Networks",
+  "icon": "Network",
+  "description": "Networking and security",
+  "pages": [
+    "index",
+    "ciscocommands",
+    "ciscosecurity",
+    "subnets"
+  ],
+  "root": true
+}

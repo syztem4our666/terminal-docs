@@ -1,0 +1,143 @@
+---
+title: SSH
+description: Linux
+---
+### SSH Service
+
+#### Start SSH service
+
+```bash
+(sudo) service ssh start
+```
+
+#### Check SSH service status
+
+```bash
+(sudo) service ssh status
+```
+
+#### Stop SSH service
+
+```bash
+(sudo) service ssh stop
+```
+
+#### Restart SSH service
+
+```bash
+(sudo) service ssh restart
+```
+
+#### Open config file (usual location)
+
+```bash
+sudo nano /etc/ssh/sshd_config
+```
+
+### SSH Keys
+
+#### Generate a new SSH key
+
+```bash
+ssh-keygen -t rsa -b 4096
+```
+
+#### Send the key to the server
+
+```bash
+ssh-copy-id user@server
+```
+
+#### Convert id_rsa into PPK
+
+```bash
+puttygen current_key -o keyname.ppk
+```
+
+### SSH Connections
+
+#### Connect to a server (default port 22)
+
+```bash
+ssh user@server
+```
+
+#### Use a specific port declared in sshd_config
+
+```bash
+ssh user@server -p other_port
+```
+
+#### Run a script on a remote server
+
+```bash
+ssh user@server script_to_run
+```
+
+#### Compress and download from a remote server
+
+```bash
+ssh user@server "tar cvzf - ~/source" > output.tgz
+```
+
+#### Specify another SSH key for connection
+
+```bash
+ssh -i ~/.ssh/specific_ssh_fkey
+```
+
+### SCP (Secure Copy)
+
+#### Copy a file from a remote server to a local machine
+
+```bash
+scp user@server:/directory/file.ext local_destination/
+```
+
+#### Copy a file between two servers
+
+```bash
+scp user@server:/dir/file.ext user@server:/dir
+```
+
+#### Copy a file from a local machine to a remote server
+
+```bash
+scp local_destination/file.ext user@server:/directory
+```
+
+#### Use a specific port declared for SSH in sshd_config
+
+```bash
+scp -P port
+```
+
+#### Copy recursively a whole folder
+
+```bash
+scp -r user@server:/directory local_destination/
+```
+
+#### Copy all files from a folder
+
+```bash
+scp user@server:/directory/* local_destination/
+```
+
+#### Copy all files from a server folder to the current folder
+
+```bash
+scp user@server:/directory/* .
+```
+
+#### Compress data on network using gzip
+
+```bash
+scp -C
+```
+
+#### Print verbose info about the current transfer
+
+```bash
+scp -v
+```

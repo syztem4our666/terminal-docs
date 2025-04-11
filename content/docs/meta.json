@@ -1,0 +1,5 @@
+{
+    "pages": ["index", "CheatSheets", "Windows", "Linux", "Networks", "PentestingLinux", "PentestingNetworks", 
+    "PentestingWeb", "PentestingWindows"],
+    "root": true
+  }

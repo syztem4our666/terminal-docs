@@ -1,0 +1,210 @@
+---
+title: Cisco Security Commands
+description: Networking
+---
+### Cisco AutoSecure
+```bash
+Router# auto secure
+```
+- This command enables the Cisco AutoSecure feature, which helps to secure a device by applying security best practices. It doesn't provide complete protection but enhances security.
+
+---
+
+### Password Security Commands
+
+1. **Encrypt passwords**
+   ```bash
+   R1(config)# service password-encryption
+   ```
+   - This command encrypts all plaintext passwords in the device's configuration, preventing unauthorized users from seeing them in clear text.
+
+2. **Set a minimum password length**
+   ```bash
+   R1(config)# security passwords min-length 8
+   ```
+   - This enforces a minimum length of 8 characters for all passwords to enhance password security.
+
+3. **Limit failed login attempts**
+   ```bash
+   R1(config)# login block-for 120 attempts 3 within 60
+   ```
+   - This command blocks login attempts for 120 seconds if there are 3 failed login attempts within 60 seconds, helping to mitigate brute-force attacks.
+
+4. **Configure password on VTY lines**
+   ```bash
+   R1(config)# line vty 0 4
+   R1(config-line)# password cisco123
+   ```
+   - This sets the password for virtual terminal (VTY) lines 0 to 4 (for remote access via SSH or Telnet) to `cisco123`.
+
+5. **Set exec-timeout for idle VTY sessions**
+   ```bash
+   R1(config-line)# exec-timeout 5 30
+   ```
+   - This command ensures that an idle VTY session (remote access session) will automatically log out after 5 minutes and 30 seconds of inactivity.
+
+6. **Restrict VTY access to SSH only**
+   ```bash
+   R1(config-line)# transport input ssh
+   ```
+   - This command disables Telnet and allows only SSH connections for remote access, enhancing security by using an encrypted protocol.
+
+Summary:
+```bash
+R1(config)# service password-encryption
+R1(config)# security passwords min-length 8
+R1(config)# login block-for 120 attempts 3 within 60
+R1(config)# line vty 0 4
+R1(config-line)# password cisco123
+R1(config-line)# exec-timeout 5 30
+R1(config-line)# transport input ssh
+R1(config-line)# end
+R1#
+R1# show running-config | section line vty
+line vty 0 4
+password 7 094F471A1A0A
+exec-timeout 5 30
+login
+transport input ssh
+R1#
+```
+
+### SSH Configuration Commands
+
+1. **Enter global configuration mode**
+   ```bash
+   Router# configure terminal
+   ```
+
+2. **Set the router's hostname**
+   ```bash
+   Router(config)# hostname R1
+   ```
+   - This sets the hostname of the device to `R1`.
+
+3. **Set the domain name**
+   ```bash
+   R1(config)# ip domain name span.com
+   ```
+   - This sets the IP domain name to `span.com`, necessary for generating an SSH key pair.
+
+4. **Generate the RSA key pair for SSH**
+   ```bash
+   R1(config)# crypto key generate rsa general-keys modulus 1024
+   ```
+   - This generates an RSA key pair with a modulus size of 1024 bits for SSH encryption. Larger key sizes are more secure but may increase the time it takes to encrypt/decrypt traffic.
+
+5. **Create a local user with a password**
+   ```bash
+   R1(config)# username Bob secret cisco
+   ```
+   - This creates a local user `Bob` with the password `cisco`. The `secret` keyword encrypts the password.
+
+6. **Enter configuration mode for VTY lines**
+   ```bash
+   R1(config)# line vty 0 4
+   ```
+
+7. **Enable local authentication for VTY lines**
+   ```bash
+   R1(config-line)# login local
+   ```
+   - This configures the device to authenticate remote users (on VTY lines) using the local user database.
+
+8. **Enable SSH for VTY lines and disable Telnet**
+   ```bash
+   R1(config-line)# transport input ssh
+   ```
+   - This command allows only SSH connections and disables Telnet on VTY lines.
+
+9. **Exit VTY configuration mode**
+   ```bash
+   R1(config-line)# exit
+   ```
+
+10. **Return to global configuration mode**
+    ```bash
+    R1(config)#
+    ```
+Summary:
+```bash
+Router# configure terminal
+Router(config)# hostname R1
+R1(config)# ip domain name span.com
+R1(config)# crypto key generate rsa general-keys modulus 1024
+The name for the keys will be: Rl.span.com % The key modulus size is 1024 bits
+% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]
+Dec 13 16:19:12.079: %SSH-5-ENABLED: SSH 1.99 has been enabled
+R1(config)#
+R1(config)# username Bob secret cisco
+R1(config)# line vty 0 4
+R1(config-line)# login local
+R1(config-line)# transport input ssh
+R1(config-line)# exit
+R1(config)#
+```
+
+### Disable Unused Services
+Here’s each command with its explanation:  
+
+```bash
+# Show all active ports on the router
+show ip ports all
+```
+- Displays all open TCP and UDP ports on the router, including the processes using them.  
+- Useful for identifying unnecessary or risky services running on the device.  
+
+```bash
+# Show open ports on the control-plane
+show control-plane host open-ports
+```
+- Lists all active connections on the control plane, including listening services.  
+- Helps determine which services are exposed and need to be secured.  
+
+```bash
+# Enter global configuration mode
+configure terminal
+```
+- Enters the router’s configuration mode, allowing modifications to settings.  
+
+```bash
+# Disable the HTTP server
+no ip http server
+```
+- Turns off the embedded HTTP service to prevent web-based management, reducing attack surface.  
+
+```bash
+# Configure virtual terminal (VTY) lines 0-15
+line vty 0 15
+```
+- Selects the virtual terminal lines used for remote access (like Telnet or SSH).  
+
+```bash
+# Allow only SSH for remote access
+transport input ssh
+```
+- Restricts remote access to SSH only, disabling Telnet for improved security. 
+
+Summary:
+```bash
+Router# show ip ports all
+Proto Local Address               Foreign Address             State       PID/Program Name
+TCB       Local Address               Foreign Address             (state)
+tcp   :::443                     :::*                        LISTEN      309/[IOS]HTTP CORE
+tcp   *:443                      *:*                         LISTEN      309/[IOS]HTTP CORE
+udp   *:67                        0.0.0.0:0                               387/[IOS]DHCPD Receive
+Router#
+```
+
+```bash
+Router# show control-plane host open-ports
+Active internet connections (servers and established)
+Prot        Local Address      Foreign Address                  Service    State
+tcp                 *:23                  *:0                   Telnet   LISTEN
+tcp                 *:80                  *:0                HTTP CORE   LISTEN
+udp                 *:67                  *:0            DHCPD Receive   LISTEN
+Router# configure terminal
+Router(config)# no ip http server
+Router(config)# line vty 0 15
+Router(config-line)# transport input ssh
+```

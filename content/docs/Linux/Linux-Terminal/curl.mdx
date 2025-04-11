@@ -1,0 +1,157 @@
+---
+title: Curl
+description: Linux Terminal Util
+---
+#### curl Command Reference
+
+The `curl` tool is used for transferring data to or from a server. It supports multiple protocols like HTTP, HTTPS, FTP, and more.
+
+#### Syntax
+
+```bash
+curl [options] [URL...]
+```
+
+#### Common Options
+
+- **`-A`, `--user-agent`**: Specify the User-Agent string.
+  ```bash
+  curl -A "Mozilla/5.0" https://example.com
+  ```
+
+- **`-b`, `--cookie`**: Send data as a cookie.
+  ```bash
+  curl -b "name=data" https://example.com
+  ```
+
+- **`-c`, `--cookie-jar`**: Save cookies to a file.
+  ```bash
+  curl -c cookies.txt https://example.com
+  ```
+
+- **`--compressed`**: Request a compressed response.
+  ```bash
+  curl --compressed https://example.com
+  ```
+
+#### Data and POST Requests
+
+- **`-d`, `--data`**: Send data with a POST request.
+  ```bash
+  curl -d "name=daniel&skill=lousy" https://example.com
+  ```
+
+- **`-F`, `--form`**: Emulate form submission.
+  ```bash
+  curl -F "file=@/path/to/file" https://example.com/upload
+  ```
+
+- **`-T`, `--upload-file`**: Upload a file.
+  ```bash
+  curl -T localfile.txt https://example.com/upload
+  ```
+
+- **`-u`, `--user`**: Provide user credentials.
+  ```bash
+  curl -u username:password https://example.com
+  ```
+
+- **`-X`, `--request`**: Specify custom HTTP methods.
+  ```bash
+  curl -X PUT https://example.com
+  ```
+
+#### HTTP Headers and Responses
+
+- **`-I`, `--head`**: Fetch only the headers of the response.
+  ```bash
+  curl -I https://example.com
+  ```
+
+- **`-H`, `--header`**: Add custom HTTP headers.
+  ```bash
+  curl -H "User-Agent: MyAgent/1.0" https://example.com
+  ```
+
+- **`-v`, `--verbose`**: Enable verbose output for debugging.
+  ```bash
+  curl --verbose https://example.com
+  ```
+
+- **`--limit-rate`**: Limit the transfer rate.
+  ```bash
+  curl --limit-rate 1k https://example.com
+  ```
+
+- **`-L`, `--location`**: Follow redirects.
+  ```bash
+  curl --location https://example.com
+  ```
+
+
+
+#### Miscellaneous
+
+- **`-k`, `--insecure`**: Allow insecure SSL connections.
+  ```bash
+  curl -k https://example.com
+  ```
+
+- **`-o`, `--output`**: Save the output to a file.
+  ```bash
+  curl https://example.com -o example.html
+  ```
+
+- **`-O`, `--remote-name`**: Save the output with the remote file name.
+  ```bash
+  curl -O https://example.com/file.txt
+  ```
+
+- **`-s`, `--silent`**: Silent mode, no progress or error messages.
+  ```bash
+  curl --silent https://example.com
+  ```
+
+- **`-w`, `--write-out`**: Output additional information.
+  ```bash
+  curl --write-out "%{http_code}" https://example.com
+  ```
+
+- **`-x`, `--proxy`**: Use a proxy server.
+  ```bash
+  curl -x proxy.example.com:3128 https://example.com
+  ```
+
+
+
+#### Examples
+
+- **Retrieve a Web Page**
+  ```bash
+  curl https://example.com
+  ```
+
+- **Save Output to a File**
+  ```bash
+  curl https://example.com -o example.html
+  ```
+
+- **Follow Redirects**
+  ```bash
+  curl --location https://example.com
+  ```
+
+- **Upload a File**
+  ```bash
+  curl -T /path/to/localfile.txt https://example.com/upload
+  ```
+
+- **Use a Proxy**
+  ```bash
+  curl -x proxy.example.com:3128 https://example.com
+  ```
+
+- **Display Only HTTP Headers**
+  ```bash
+  curl -I https://example.com
+  ```

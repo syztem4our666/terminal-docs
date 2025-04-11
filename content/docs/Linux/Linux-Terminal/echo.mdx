@@ -1,0 +1,119 @@
+---
+title: Echo
+description: Linux Terminal Util
+---
+#### echo
+
+Display message on screen, writes each given STRING to standard output, with a space between each and a newline after the last one.
+
+### Syntax
+```bash
+echo [options]... [String]...
+```
+
+### Options
+
+- `-n` Do not output a trailing newline.
+- `-E` Disable the interpretation of the following backslash-escaped characters.
+- `-e` Enable interpretation of the following backslash-escaped characters in each String:
+
+   - `\a` Alert (bell)
+   - `\b` Backspace
+   - `\c` Suppress trailing newline
+   - `\e` Escape
+   - `\E` Escape 
+   - `\f` Form feed
+   - `\n` New line
+   - `\r` Carriage return
+   - `\t` Horizontal tab
+   - `\v` Vertical tab
+   - `\\` Backslash
+   - `\0nnn` The eight-bit character whose value is the octal value nnn (zero to three octal digits) if nnn is not a valid octal number, it is printed literally.
+   - `\xHH` The eight-bit character whose value is the hex value HH (one or two hex digits)
+   - `\uHHHH` The Unicode (ISO/IEC 10646) character whose value is the hex value HHHH (one to four hex digits)
+   - `\UHHHHHHHH` The Unicode (ISO/IEC 10646) character whose value is the hex value HHHHHHHH (one to eight hex digits)
+
+This is a BASH shell builtin, to display your local syntax from the bash prompt type: `help echo`. There is also an `echo` utility (`man echo`), but the shell built-in version will generally take precedence.
+
+### Colour for echo command
+
+| Colour           | Codes   | Usage                  |
+|------------------|---------|------------------------|
+| Black            | 0;30    | '\033[0;30m'           |
+| Dark Gray        | 1;30    | '\033[1;30m'           |
+| Red              | 0;31    | '\033[0;31m'           |
+| Light Red        | 1;31    | '\033[1;31m'           |
+| Green            | 0;32    | '\033[0;32m'           |
+| Light Green      | 1;32    | '\033[1;32m'           |
+| Brown/Orange     | 0;33    | '\033[0;33m'           |
+| Yellow           | 1;33    | '\033[1;33m'           |
+| Blue             | 0;34    | '\033[0;34m'           |
+| Light Blue       | 1;34    | '\033[1;34m'           |
+| Purple           | 0;35    | '\033[0;35m'           |
+| Light Purple     | 1;35    | '\033[1;35m'           |
+| Cyan             | 0;36    | '\033[0;36m'           |
+| Light Cyan       | 1;36    | '\033[1;36m'           |
+| Light Gray       | 0;37    | '\033[0;37m'           |
+| White            | 1;37    | '\033[1;37m'           |
+| Reset            | 0       | '\033[0m'              |
+| Clear the screen | 2J      | '\033[2J'              |
+
+### Examples
+
+#### Display a text string:
+```bash
+echo "Hello World"
+```
+```bash
+echo "with quotes we can echo
+several lines at a time"
+```
+
+#### Display a variable:
+```bash
+DEMO=Testing123
+echo "$DEMO"
+```
+_Output:_
+```bash
+Testing123
+```
+
+#### Display an error message in red:
+```bash
+BOLD_RED='\033[1;31m'
+RESET='\033[0m'
+echo -e "${BOLD_RED}ERROR${RESET}: The parameter was not found."
+```
+
+#### Echo with colours:
+```bash
+COL_BLUE="\x1b[34;01m"
+COL_RESET="\x1b[39;49;00m"
+echo -e $COL_BLUE"Important Message: "$COL_RESET"This is a message"
+```
+
+#### Display all colour combinations in a shell script:
+
+```bash
+#!/bin/bash
+#
+echo ---Bg---40---41---42---43---44---45---46---47
+for i in {30..37} # foreground
+do
+  echo -n -e fg$i- 
+  for j in {40..47} # background
+  do
+    echo -n -e '\E['$i';'$j'm SS64'
+    tput sgr0 # Reset text attributes to normal without clear
+  done
+  echo # newline
+done
+
+echo -- Clear BG --
+for n in {30..37} # foreground
+do
+  echo -e fg$n '\E['$n';'01'm SS64'
+  tput sgr0 # Reset text attributes to normal without clear
+done
+```

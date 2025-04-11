@@ -1,0 +1,106 @@
+---
+title: System Information 
+description: Linux
+---
+
+#### System Information Commands
+
+#### CPU usage in percentage
+```bash
+HZ=`awk '/\#define HZ/ { print $3}' /usr/include/asm-generic/param.h`; NUMCPUS=`grep ^proc /proc/cpuinfo | wc -l`; FIRST=`cat /proc/stat | awk '/^cpu / { print $5}'`; sleep 1; SECOND=`cat /proc/stat | awk '/^cpu / { print $5}'`; USED=`echo 4 k 100 $SECOND $FIRST - $NUMCPUS $HZ \* / 100 \* - p | dc`; echo ${USED}
+```
+
+#### CPU usage in percentage (simpler version)
+```bash
+NUMCPUS=`grep ^proc /proc/cpuinfo | wc -l`; FIRST=`cat /proc/stat | awk '/^cpu / { print $5}'`; sleep 1; SECOND=`cat /proc/stat | awk '/^cpu / { print $5}'`; USED=`echo 2 k 100 $SECOND $FIRST - $NUMCPUS / - p | dc`; echo ${USED}%
+```
+
+#### Laptop battery in percentage
+```bash
+max=$(grep 'last full capacity:' /proc/acpi/battery/BAT1/info| awk '{ print $4}') ; current=$(grep 'remaining capacity:' /proc/acpi/battery/BAT1/state| awk '{ print $3}'); percent=$(expr $current'00' / $max ); echo -e $percent
+```
+
+#### Laptop battery in percentage (alternative)
+```bash
+upower -i $(upower -e | grep BAT) | grep --color=never -E percentage| xargs| cut -d' ' -f2| sed s/%//
+```
+
+#### Laptop battery in percentage (simpler version)
+```bash
+cat /sys/class/power_supply/BAT1/uevent | awk '/POWER_SUPPLY_CAPACITY/ { print $1}' | sed 's/POWER_SUPPLY_CAPACITY=//'
+```
+
+#### Bluetooth MAC address
+```bash
+hciconfig -a | awk '/BD Address:/ { print $3}'
+```
+
+#### Bluetooth name
+```bash
+hciconfig -a | awk '/Name:/ { print $2}'
+```
+
+#### Network interfaces
+```bash
+ifconfig -a
+```
+
+#### Network interfaces (alternative)
+```bash
+ip a
+```
+
+#### Memory information
+```bash
+cat /proc/meminfo
+```
+
+#### Info about the Linux system
+```bash
+cat /proc/version
+```
+
+#### Info about the Linux system (alternative)
+```bash
+uname -a
+```
+
+#### Info about the Linux system (with a more detailed output)
+```bash
+neofetch
+```
+
+#### PCI devices
+```bash
+lspci
+```
+
+#### USB devices
+```bash
+lsusb
+```
+
+#### Block devices (except RAM disks) in a tree-like format
+```bash
+lsblk
+```
+
+#### Uptime of machine
+```bash
+uptime
+```
+
+#### Disk usage info
+```bash
+df -k
+```
+
+#### Bootlog info
+```bash
+cat /var/log/boot.log
+```
+
+#### Show a small month's calendar
+```bash
+cal
+```

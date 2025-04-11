@@ -1,0 +1,76 @@
+---
+title: Kill
+description: Linux Terminal Util
+---
+
+The `kill` command in Unix-like systems is used to send signals to processes. It can be used to terminate processes, stop them, or even send specific signals to change their behavior. Below is a breakdown of the usage and examples:
+
+### Syntax:
+```bash
+kill [-s sigspec] [-n signum] [-sigspec] jobspec or pid
+kill -l [exit_status]
+kill -l [sigspec]
+```
+
+### Key Options:
+- `-l`: List all signal names.
+- `-s`: Send a specific signal (can be either signal name or number).
+- `-n`: Send a signal by its number.
+
+If no signal is specified, `SIGTERM` (signal 15) is used by default to terminate the process.
+
+### Signals:
+- **SIGTERM (15)**: Default signal used by `kill`, requests a graceful shutdown.
+- **SIGKILL (9)**: Forcefully terminates the process (cannot be caught or ignored).
+- **SIGINT (2)**: Interrupts a process, typically triggered by pressing `Ctrl + C`.
+- **SIGHUP (1)**: Hangup signal, often used to tell a daemon to reload its configuration.
+- **SIGSTOP (17,19,23)**: Stops a process temporarily (can be resumed later).
+- **SIGABRT (6)**: Used by programs to abort execution.
+
+### Common Examples:
+
+1. **Kill a Process**:
+   First, identify the process using `ps` or any other method to get its PID (Process ID).
+   ```bash
+   ps
+   PID TTY      TIME CMD
+   1293 pts/5    00:00:00 MyProgram
+   ```
+
+   Then, use the `kill` command to terminate it:
+   ```bash
+   kill 1293
+   ```
+
+   If successful, the output will be:
+   ```bash
+   [2]+ Terminated MyProgram
+   ```
+
+2. **Force Kill a Process (SIGKILL)**:
+   If the process does not respond to `SIGTERM`, you can forcefully kill it with `SIGKILL` (signal number 9):
+   ```bash
+   kill -9 1293
+   ```
+
+3. **Send a Custom Signal**:
+   You can send a custom signal to a process. For example, to send `SIGSTOP` (to pause the process):
+   ```bash
+   kill -s SIGSTOP 1293
+   ```
+
+4. **List All Signals**:
+   To list all available signal names:
+   ```bash
+   kill -l
+   ```
+
+5. **Kill a Process After a Delay**:
+   Run a command in the background, then kill it after a delay of 5 seconds:
+   ```bash
+   my_command & sleep 5
+   kill -0 $! && kill $!
+   ```
+
+   The `$!` variable holds the PID of the last background process.
+

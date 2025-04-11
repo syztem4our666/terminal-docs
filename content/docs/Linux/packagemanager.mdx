@@ -1,0 +1,352 @@
+---
+title: Package Manager
+description: Linux
+---
+
+### Package Management Commands
+
+#### Install from Repository
+
+#### Snap Package Manager
+```bash
+snap install [packageName]
+```
+
+#### Flatpak Package Manager
+```bash
+flatpak install [remote] [packageName]
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt install [packageName]
+```
+
+#### YUM (Yellowdog Updater Modified)
+```bash
+yum install [packageName]
+```
+
+#### DNF (Dandified YUM)
+```bash
+dnf install [packageName]
+```
+
+#### PKG (FreeBSD Package Manager)
+```bash
+pkg install [packageName]
+```
+
+#### APT-GET (Older Debian-Based Systems)
+```bash
+apt-get install [packageName]
+```
+
+#### Pacman (Arch Linux)
+```bash
+pacman -S [packageName]
+```
+
+#### Pip (Python Package Installer)
+```bash
+pip install [packageName]
+```
+
+#### Zypper (openSUSE)
+```bash
+zypper install [packageName]
+```
+
+### Install from File
+
+#### Flatpak File
+```bash
+flatpak install [package.flatpakref]
+```
+
+#### Debian Package
+```bash
+dpkg -i [package.deb]
+```
+
+#### RPM Package
+```bash
+yum install [package.rpm]
+```
+
+#### DNF RPM Package
+```bash
+dnf install [package.rpm]
+```
+
+#### TXZ Package (FreeBSD)
+```bash
+pkg add [package.txz]
+```
+
+#### Tarball Package (Arch Linux)
+```bash
+pacman -U [package.tar.gz]
+```
+
+#### Local Python Package
+```bash
+pip install [/path/to/package]
+```
+
+### Remove/Uninstall
+
+#### Snap Package Manager
+```bash
+snap remove [packageName]
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt-get remove [packageName]
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt remove [packageName]
+```
+
+#### DNF (Dandified YUM)
+```bash
+dnf erase [packageName]
+```
+
+#### PKG (FreeBSD Package Manager)
+```bash
+pkg delete [packageName]
+```
+
+#### Pacman (Arch Linux)
+```bash
+pacman -R [packageName]
+```
+
+#### Pip (Python Package Installer)
+```bash
+pip uninstall [packageName]
+```
+
+#### Zypper (openSUSE)
+```bash
+zypper rm [packageName]
+```
+
+### Find a Package
+
+#### Snap Package Manager
+```bash
+snap find [query]
+```
+
+#### Flatpak Package Manager
+```bash
+flatpak search [query]
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt-cache search [query]
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt search [query]
+```
+
+#### YUM (Yellowdog Updater Modified)
+```bash
+yum search [query]
+```
+
+#### DNF (Dandified YUM)
+```bash
+dnf search [query]
+```
+
+#### PKG (FreeBSD Package Manager)
+```bash
+pkg search [query]
+```
+
+#### Pacman (Arch Linux)
+```bash
+pacman -Ss [query]
+```
+
+#### Pip (Python Package Installer)
+```bash
+pip search [query]
+```
+
+#### Zypper (openSUSE)
+```bash
+zypper search [packageName]
+```
+
+### View Package Info
+
+#### Snap Package Manager
+```bash
+snap info [packageName]
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt-cache show [packageName]
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt show [packageName]
+```
+
+#### Debian Package
+```bash
+dpkg -s [packageName]
+```
+
+#### YUM (Yellowdog Updater Modified)
+```bash
+yum info [packageName]
+```
+
+#### DNF (Dandified YUM)
+```bash
+dnf info [packageName]
+```
+
+#### PKG (FreeBSD Package Manager)
+```bash
+pkg info [packageName]
+```
+
+#### Pacman (Arch Linux)
+```bash
+pacman -Si [packageName]
+```
+
+#### Pip (Python Package Installer)
+```bash
+pip show [packageName]
+```
+
+### Update Package Lists
+
+#### APT (Advanced Package Tool)
+```bash
+apt-get update
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt update
+```
+
+#### YUM (Yellowdog Updater Modified)
+```bash
+yum check-update
+```
+
+#### DNF (Dandified YUM)
+```bash
+dnf check-update
+```
+
+#### PKG (FreeBSD Package Manager)
+```bash
+pkg update
+```
+
+#### Pacman (Arch Linux)
+```bash
+pacman -S
+```
+
+#### Zypper (openSUSE)
+```bash
+zypper refresh
+```
+
+### Upgrade Installed Packages
+
+#### Snap Package Manager
+```bash
+snap refresh
+```
+
+#### Flatpak Package Manager
+```bash
+flatpak update
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt-get upgrade
+```
+
+#### APT (Advanced Package Tool)
+```bash
+apt upgrade
+```
+
+#### YUM (Yellowdog Updater Modified)
+```bash
+yum update
+```
+
+#### DNF (Dandified YUM)
+```bash
+dnf upgrade
+```
+
+#### PKG (FreeBSD Package Manager)
+```bash
+pkg upgrade
+```
+
+#### Pacman (Arch Linux)
+```bash
+pacman -Syu
+```
+
+#### Pip (Python Package Installer)
+```bash
+pip install [packageName] --upgrade
+```
+
+#### Zypper (openSUSE)
+```bash
+zypper update
+```
+
+### Add Repository Source
+
+#### APT (Advanced Package Tool)
+```bash
+add-apt-repository ppa:[userName]/[ppaName]
+```
+
+#### APT (Advanced Package Tool)
+```bash
+add-apt-repository deb [url] [derivative]
+```
+
+#### YUM (Yellowdog Updater Modified)
+```bash
+yum-config-manager --add-repo [url]
+```
+
+#### DNF (Dandified YUM)
+```bash
+dnf config-manager --add-repo [url]
+```
+
+#### Zypper (openSUSE)
+```bash
+zypper addrepo [url] [alias]
+```

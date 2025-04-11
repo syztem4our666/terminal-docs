@@ -1,0 +1,11 @@
+{
+  "title": "Windows",
+  "icon": "AppWindow",
+  "description": "Windows system administration and management",
+  "pages": [
+    "index",
+    "partitions",
+    "bootmgr"
+  ],
+  "root": true
+}

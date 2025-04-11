@@ -1,0 +1,87 @@
+---
+title: Base64
+description: Linux Terminal Util
+---
+#### base64
+
+Base64 encode/decode data and print to standard output.
+
+#### Syntax
+
+```bash
+base64 [OPTION]... [FILE]
+```
+
+#### Key
+
+- **-d**  
+  `--decode`  
+  Decode data.
+
+- **-i**  
+  `--ignore-garbage`  
+  When decoding, ignore non-alphabet characters.
+
+- **-w**  
+  `--wrap=COLS`  
+  Wrap encoded lines after COLS characters (default 76). Use 0 to disable line wrapping.
+
+- **--help**  
+  Display this help and exit.
+
+- **--version**  
+  Output version information and exit.
+
+With no FILE, or when FILE is `-`, read from standard input.  
+Mandatory arguments to long options are mandatory for short options too.
+
+#### Overview
+
+Base64 is designed to carry data stored in binary formats across channels that only reliably support text. Base64 is particularly prevalent on the internet where its uses include the ability to embed image files or other binary assets inside textual assets such as HTML and CSS files.
+
+For instance, background images and fonts can be specified in a CSS stylesheet file as data: URIs, instead of separate files.
+
+A favicon:
+
+```html
+<link rel="icon" href="data:image/png,base_64_string" type="image/png" />
+```
+
+The base64 encoded data is about 33% larger than the raw data.
+
+The data are encoded as described for the base64 alphabet in RFC 4648.  
+This uses an alphabet of A-Z, a-z, 0-9, `+/=`  
+Padding at the end of the data is performed using the `=` character.
+
+When decoding, the input may contain newlines in addition to the bytes of the formal base64 alphabet. Use `--ignore-garbage` to attempt to recover from any other non-alphabet bytes in the encoded stream.
+
+base64 is often used to encode .PNG and .JPG data for use in HTML / CSS however data URIs can accept .SVG directly, encoding SVG in base64 will just make the file larger.
+
+base64 is part of the coreutils (basic file, shell and text manipulation utilities) project.
+
+#### Examples
+
+1. Encode the text file sample.txt:
+
+```bash
+$ base64 sample.txt > encoded.txt
+```
+
+2. Encode a binary photo file:
+
+```bash
+$ base64 --wrap=0 favicon.ico > encoded.txt
+```
+
+3. Decode the file encoded.txt:
+
+```bash
+$ base64 encoded.txt > restore.txt
+```
+
+4. Encode a string:
+
+```bash
+$ echo abcdef | base64
+YWJjZGVmCg==
+```

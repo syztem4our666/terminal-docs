@@ -1,0 +1,79 @@
+---
+title: System Control 
+description: Linux
+---
+
+#### Lock screen
+```bash
+gnome-screensaver-command -l
+```
+
+#### Lock screen (alternative)
+```bash
+dbus-send --type=method_call --dest=org.freedesktop.ScreenSaver /ScreenSaver org.freedesktop.ScreenSaver.Lock
+```
+
+#### Unlock screen
+```bash
+gnome-screensaver-command -a
+```
+
+#### Unlock screen (alternative)
+```bash
+dbus-send --type=method_call --dest=org.freedesktop.ScreenSaver /ScreenSaver org.freedesktop.ScreenSaver.SetActive boolean:false
+```
+
+#### Reboot the system
+```bash
+reboot
+```
+
+#### Reboot the system (alternative)
+```bash
+shutdown -r
+```
+
+#### Shutdown the system
+```bash
+poweroff
+```
+
+#### Shutdown the system (alternative)
+```bash
+shutdown -h now
+```
+
+#### Shutdown the system (another alternative)
+```bash
+reboot -p
+```
+
+#### Shutdown the system at specific time
+```bash
+shutdown -h 18:45 "Server is going down for maintenance"
+```
+
+#### Stop Bluetooth service
+```bash
+service bluetooth stop
+```
+
+#### Start Bluetooth service
+```bash
+service bluetooth start
+```
+
+#### Stop Wi-Fi service
+```bash
+nmcli nm wifi off
+```
+
+#### Start Wi-Fi service
+```bash
+nmcli nm wifi on
+```
+
+#### Turn off monitor
+```bash
+xset dpms force off
+```

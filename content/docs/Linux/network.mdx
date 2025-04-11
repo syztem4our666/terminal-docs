@@ -1,0 +1,109 @@
+---
+title: Linux Network
+description: Linux
+---
+
+#### External IP
+```bash
+curl ifconfig.me
+```
+
+#### External IP (alternative)
+```bash
+dig +short myip.opendns.com @resolver1.opendns.com
+```
+
+#### External IP (another alternative)
+```bash
+netcat icanhazip.com 80 <<< $'GET / HTTP/1.1 Host: icanhazip.com ' | tail -n1
+```
+
+#### Get Wi-Fi password
+```bash
+cat /etc/NetworkManager/system-connections/[SSID] | grep psk=
+```
+
+#### List network interfaces
+```bash
+lspci | egrep -i --color 'network|ethernet'
+```
+
+#### List network interfaces (alternative)
+```bash
+ifconfig -a
+```
+
+#### List network interfaces (another alternative)
+```bash
+ip link show
+```
+
+#### List network interfaces (yet another alternative)
+```bash
+lshw -class network
+```
+
+#### List network interfaces (simpler alternative)
+```bash
+cat /proc/net/dev
+```
+
+#### Download file
+```bash
+wget [url]
+```
+
+#### Download file (alternative)
+```bash
+curl -O [url]
+```
+
+#### Get information about domain
+```bash
+whois [ip]
+```
+
+#### Ping to another device
+```bash
+ping [ip]
+```
+
+#### Configure network interface
+```bash
+ifconfig
+```
+
+#### Show the hostname of your box
+```bash
+hostname [ip]
+```
+
+#### Trace the path that a packet takes to its destination
+```bash
+traceroute [ip]
+```
+
+#### Telnet connection
+```bash
+telnet [ip] [port]
+```
+
+#### DNS lookup and display server answer
+```bash
+dig [ip]
+```
+
+#### Release IP and get a new one from DHCP
+```bash
+dhclient -r
+```
+
+#### List open sockets
+```bash
+netstat -l
+```
+
+#### List open sockets (alternative)
+```bash
+lsof -i
+```

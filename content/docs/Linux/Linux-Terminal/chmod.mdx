@@ -1,0 +1,141 @@
+---
+title: Chmod
+description: Linux Terminal Util
+---
+
+**`chmod`**  
+Change access permissions (mode) for files and directories.
+
+### **Syntax**
+
+```bash
+chmod [Options]... Mode [,Mode]... file...
+chmod [Options]... Numeric_Mode file...
+chmod [Options]... --reference=RFile file...
+```
+
+### **Options**
+- **`-f, --silent, --quiet`**  
+  Suppress most error messages.
+  
+- **`-v, --verbose`**  
+  Output a diagnostic for every file processed.
+
+- **`-c, --changes`**  
+  Similar to verbose, but report only when a change is made.
+
+- **`--reference=RFile`**  
+  Use `RFile`'s mode instead of specifying `Mode`.
+
+- **`-R, --recursive`**  
+  Change files and directories recursively. Avoid applying recursive `chmod` on system directories or root `/`.
+
+- **`--help`**  
+  Display help and exit.
+
+- **`--version`**  
+  Output version information and exit.
+
+---
+
+### **Understanding `chmod`**
+
+The `chmod` command changes the access permissions of files and directories. Permissions can be modified using either symbolic or numeric modes.
+
+#### **Permissions**
+
+- **Owner** (User): `r` (Read), `w` (Write), `x` (Execute)
+- **Group**: `r` (Read), `w` (Write), `x` (Execute)
+- **Others**: `r` (Read), `w` (Write), `x` (Execute)
+
+#### **Set User ID (SUID), Set Group ID (SGID), and Sticky Bit**
+
+- **SUID** (Set User ID): `4xxx`
+- **SGID** (Set Group ID): `2xxx`
+- **Sticky Bit**: `1xxx`
+
+These attributes can be added by prepending the numeric mode.
+
+---
+
+### **Numeric Mode**
+
+Numeric mode consists of up to four octal digits (0-7), each representing specific permissions.
+
+- **First digit** (optional): SUID (4), SGID (2), Sticky Bit (1)
+- **Second digit**: Owner permissions (r=4, w=2, x=1)
+- **Third digit**: Group permissions (r=4, w=2, x=1)
+- **Fourth digit**: Others permissions (r=4, w=2, x=1)
+
+#### **Examples:**
+
+- **`chmod 777 file`**  
+  Grants read, write, and execute permissions to owner, group, and others.
+
+- **`chmod 755 file`**  
+  Grants read, write, and execute to the owner; read and execute to group and others.
+
+- **`chmod 644 file`**  
+  Grants read and write to the owner; read-only to group and others.
+
+---
+
+### **Symbolic Mode**
+
+Symbolic mode uses letters (`r`, `w`, `x`, `u`, `g`, `o`, `a`) to represent file permissions.
+
+- **`u`**: User (owner)
+- **`g`**: Group
+- **`o`**: Others
+- **`a`**: All (user, group, others)
+
+#### **Operators:**
+- **`+`**: Add permission
+- **`-`**: Remove permission
+- **`=`**: Set exact permission
+
+#### **Examples:**
+
+- **`chmod u+x file`**  
+  Adds execute permission for the owner.
+
+- **`chmod go-w file`**  
+  Removes write permission from group and others.
+
+- **`chmod a+r file`**  
+  Adds read permission for everyone (user, group, and others).
+
+- **`chmod g+s file`**  
+  Sets the SGID bit on a file.
+
+- **`chmod +x myscript.sh`**  
+  Makes a file executable.
+
+---
+
+### **Examples:**
+
+1. **Deny execute permission to everyone:**
+   ```bash
+   chmod a-x file
+   ```
+
+2. **Allow read permission to everyone:**
+   ```bash
+   chmod a+r file
+   ```
+
+3. **Make a file readable and writable by the group and others:**
+   ```bash
+   chmod go+rw file
+   ```
+
+4. **Make a shell script executable by the user/owner:**
+   ```bash
+   chmod u+x myscript.sh
+   ```
+
+5. **Allow everyone to read, write, and execute the file and turn on the set group-ID:**
+   ```bash
+   chmod =rwx,g+s file
+   ```

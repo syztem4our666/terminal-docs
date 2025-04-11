@@ -1,0 +1,169 @@
+---
+title: Linux Console 
+description: Linux
+---
+###### Reload shell without exit
+
+```bash
+exec $SHELL -l
+```
+
+###### Close shell keeping all subprocess running
+
+```bash
+disown -a && exit
+```
+
+###### Exit without saving shell history
+
+```bash
+kill -9 $$
+unset HISTFILE && exit
+```
+
+###### Perform a branching conditional
+
+```bash
+true && echo success
+false || echo failed
+```
+
+###### Pipe stdout and stderr to separate commands
+
+```bash
+some_command > >(/bin/cmd_for_stdout) 2> >(/bin/cmd_for_stderr)
+```
+
+###### Redirect stdout and stderr each to separate files and print both to the screen
+
+```bash
+(some_command 2>&1 1>&3 | tee errorlog ) 3>&1 1>&2 | tee stdoutlog
+```
+
+###### List of commands you use most often
+
+```bash
+history | \
+awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | \
+grep -v "./" | \
+column -c3 -s " " -t | \
+sort -nr | nl |  head -n 20
+```
+
+###### Sterilize bash history
+
+```bash
+function sterile() {
+
+  history | awk '$2 != "history" { $1=""; print $0 }' | egrep -vi "\
+curl\b+.*(-E|--cert)\b+.*\b*|\
+curl\b+.*--pass\b+.*\b*|\
+curl\b+.*(-U|--proxy-user).*:.*\b*|\
+curl\b+.*(-u|--user).*:.*\b*
+.*(-H|--header).*(token|auth.*)\b+.*|\
+wget\b+.*--.*password\b+.*\b*|\
+http.?://.+:.+@.*\
+" > $HOME/histbuff; history -r $HOME/histbuff;
+
+}
+
+export PROMPT_COMMAND="sterile"
+```
+
+  > Look also: [A naive utility to censor credentials in command history](https://github.com/lbonanomi/go/blob/master/revisionist.go).
+
+###### Quickly backup a file
+
+```bash
+cp filename{,.orig}
+```
+
+###### Empty a file (truncate to 0 size)
+
+```bash
+>filename
+```
+
+###### Delete all files in a folder that don't match a certain file extension
+
+```bash
+rm !(*.foo|*.bar|*.baz)
+```
+
+###### Pass multi-line string to a file
+
+```bash
+# cat  >filename ... - overwrite the file
+# cat >>filename ... - append to a file
+cat > filename << __EOF__
+data data data
+__EOF__
+```
+
+###### Edit a file on a remote host using vim
+
+```bash
+vim scp://user@host//etc/fstab
+```
+
+###### Create a directory and change into it at the same time
+
+```bash
+mkd() { mkdir -p "$@" && cd "$@"; }
+```
+
+###### Convert uppercase files to lowercase files
+
+```bash
+rename 'y/A-Z/a-z/' *
+```
+
+###### Print a row of characters across the terminal
+
+```bash
+printf "%`tput cols`s" | tr ' ' '#'
+```
+
+###### Show shell history without line numbers
+
+```bash
+history | cut -c 8-
+fc -l -n 1 | sed 's/^\s*//'
+```
+
+###### Run command(s) after exit session
+
+```bash
+cat > /etc/profile << __EOF__
+_after_logout() {
+
+  username=$(whoami)
+
+  for _pid in $(ps afx | grep sshd | grep "$username" | awk '{print $1}') ; do
+
+    kill -9 $_pid
+
+  done
+
+}
+trap _after_logout EXIT
+__EOF__
+```
+
+###### Generate a sequence of numbers
+
+```bash
+for ((i=1; i<=10; i+=2)) ; do echo $i ; done
+# alternative: seq 1 2 10
+
+for ((i=5; i<=10; ++i)) ; do printf '%02d\n' $i ; done
+# alternative: seq -w 5 10
+
+for i in {1..10} ; do echo $i ; done
+```
+
+###### Simple Bash filewatching
+
+```bash
+unset MAIL; export MAILCHECK=1; export MAILPATH='$FILE_TO_WATCH?$MESSAGE'
+```

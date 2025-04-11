@@ -1,0 +1,219 @@
+---
+title: Files and Folders 
+description: Linux
+---
+
+#### Create file
+```bash
+touch [fileName]
+```
+
+#### Create file (alternative)
+```bash
+echo $null >> [fileName]
+```
+
+#### Delete file
+```bash
+rm [fileName]
+```
+
+#### Display file content
+```bash
+cat [fileName]
+```
+
+#### Display file content (alternative)
+```bash
+echo $null >> [fileName]
+```
+
+#### Edit text file
+```bash
+vi [fileName]
+```
+
+#### Edit text file (alternative)
+```bash
+nano [fileName]
+```
+
+#### Edit text file (another alternative)
+```bash
+emacs [fileName]
+```
+
+#### Edit text file (yet another alternative)
+```bash
+pico [fileName]
+```
+
+#### Edit text file (minimalist option)
+```bash
+ed [fileName]
+```
+
+#### Copy file or folder
+```bash
+cp [fileName] [newFileName]
+```
+
+#### Copy file or folder (alternative)
+```bash
+cat [fileName] > [newFileName]
+```
+
+#### Copy file or folder (another alternative)
+```bash
+dd if=[fileName] of=[newFileName]
+```
+
+#### Move/Rename file or folder
+```bash
+mv [fileName] [newFileName]
+```
+
+#### Create folder
+```bash
+mkdir [folderName]
+```
+
+#### Delete folder
+```bash
+rm -r [folderName]
+```
+
+#### List folder contents
+```bash
+ls
+```
+
+#### List folder contents (alternative)
+```bash
+dir
+```
+
+#### Change folder
+```bash
+cd [path]
+```
+
+#### Change to user's home directory
+```bash
+cd ~
+```
+
+#### Change to parent directory
+```bash
+cd ..
+```
+
+#### Change to previous directory
+```bash
+cd -
+```
+
+#### Show current folder
+```bash
+pwd
+```
+
+#### Create a physical link to file or folder
+```bash
+ln [fileOrigin] [linkDest]
+```
+
+#### Find phrase within file
+```bash
+grep [phrase] [fileName]
+```
+
+#### Get filesystem of partition
+```bash
+file -sL [partition]
+```
+
+#### Mount filesystem
+```bash
+mount /dev/[device] [path]
+```
+
+#### Unmount filesystem
+```bash
+umount [path]
+```
+
+#### Make file executable
+```bash
+chmod +x [file]
+```
+
+#### Show size of all subdirectories
+```bash
+du -h --max-depth=1
+```
+
+#### Display and update information of files (like `top`)
+```bash
+watch -d -n 2 'df; ls -FlAt;'
+```
+
+#### List trash files
+```bash
+ls -l ~/.local/share/Trash/files
+```
+
+#### List trash files (alternative)
+```bash
+trash-list
+```
+
+#### Empty trash
+```bash
+rm -r ~/.local/share/Trash
+```
+
+#### Empty trash (alternative)
+```bash
+gio trash --empty
+```
+
+#### Empty trash (another alternative)
+```bash
+gvfs-trash --empty
+```
+
+#### Empty trash (yet another alternative)
+```bash
+trash-empty
+```
+
+#### Move file to trash
+```bash
+gio trash [file]
+```
+
+#### View file permission
+```bash
+ls -l [file]
+```
+
+#### Set file permission
+```bash
+chmod [permission] [file]
+```
+
+#### View owner and group of file
+```bash
+ls -l [file]
+```
+
+#### Change owner of file
+```bash
+chown [user] [file]
+```
+
+#### Change group ownership of file
+```bash
+chgrp [group] [file]
+```

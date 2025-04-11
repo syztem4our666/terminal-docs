@@ -1,0 +1,119 @@
+---
+title: Users and Groups 
+description: Linux
+---
+
+#### Create group
+```bash
+groupadd [name]
+```
+
+#### Create group (alternative)
+```bash
+addgroup [name]
+```
+
+#### Delete group
+```bash
+groupdel [name]
+```
+
+#### Rename group
+```bash
+groupmod -n [newGroupname] [oldGroupname]
+```
+
+#### Create user
+```bash
+useradd [name]
+```
+
+#### Create user (alternative)
+```bash
+adduser [name]
+```
+
+#### Delete user
+```bash
+userdel [name]
+```
+
+#### Delete user (alternative)
+```bash
+deluser [name]
+```
+
+#### Rename user
+```bash
+usermod -l [newUsername] [oldUsername]
+```
+
+#### Set user password
+```bash
+passwd [name]
+```
+
+#### Grant sudo privileges to an existing user
+```bash
+usermod -a -G sudo [user]
+```
+
+#### Grant sudo privileges to an existing user (alternative)
+```bash
+adduser [user] sudo
+```
+
+#### User information
+```bash
+finger [user]
+```
+
+#### Add existing user to group
+```bash
+usermod -aG [groupName] [userName]
+```
+
+#### Add existing user to group (alternative)
+```bash
+adduser [userName] [groupName]
+```
+
+#### Add existing user to group (another alternative)
+```bash
+gpasswd -a [userName] [groupName]
+```
+
+#### Add new user to group
+```bash
+useradd -G [group] [user]
+```
+
+#### Remove user from group
+```bash
+gpasswd -d [user] [group]
+```
+
+#### Remove user from group (alternative)
+```bash
+deluser [user] [group]
+```
+
+#### List all groups
+```bash
+getent group
+```
+
+#### List all groups (alternative)
+```bash
+cat /etc/group
+```
+
+#### List all users
+```bash
+getent passwd
+```
+
+#### List all users (alternative)
+```bash
+cat /etc/passwd
+```

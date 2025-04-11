@@ -1,0 +1,76 @@
+---
+title: Chown
+description: Linux Terminal Util
+---
+#### chown Command Reference
+
+The `chown` command is used to change the ownership of files or directories. You can specify the new owner, group, or both, and also use a reference file for the change. It is especially useful for adjusting ownership when managing file permissions and security.
+
+#### Syntax
+
+```bash
+chown [options]... NewOwner File...
+chown [options]... :Group File...
+chown [options]... --reference=RFILE File...
+```
+
+- **NewOwner**: Specifies the new owner and/or group. It can be:
+  - **OWNER**: Just the username or numeric user ID.
+  - **OWNER.GROUP** or **OWNER:GROUP**: Both the owner and the group are changed.
+  - **OWNER.** or **OWNER:**: Only the owner is changed, and the group is set to the owner's login group.
+  - **.GROUP** or **:GROUP**: Only the group is changed.
+
+#### Options
+
+- **`-c`, `--changes`**: Verbosely describe the action for each file whose ownership changes.
+  ```bash
+  sudo chown -c Ursula /Users/Shared/MyFile.txt
+  ```
+
+- **`--dereference`**: Operate on the files the symbolic links point to, not the links themselves.
+  ```bash
+  sudo chown --dereference Ursula /path/to/symlink
+  ```
+
+- **`-f`, `--silent`, `--quiet`**: Suppress error messages for files whose ownership cannot be changed.
+  ```bash
+  sudo chown -f Ursula /path/to/file
+  ```
+
+- **`-h`, `--no-dereference`**: Act on symbolic links themselves (default behavior).
+  ```bash
+  sudo chown -h Ursula /path/to/symlink
+  ```
+
+- **`--reference=FILE`**: Use the user and group of a reference file instead of specifying NewOwner.
+  ```bash
+  sudo chown --reference=/path/to/referencefile /path/to/file
+  ```
+
+- **`-R`, `--recursive`**: Recursively change ownership of directories and their contents.
+  ```bash
+  sudo chown -R Ursula /Users/Shared/tmp/
+  ```
+
+- **`-v`, `--verbose`**: Verbosely describe the action or non-action taken for each file.
+  ```bash
+  sudo chown -v Ursula /Users/Shared/MyFile.txt
+  ```
+
+#### Examples
+
+- **Change the owner of a file**:
+  ```bash
+  sudo chown Ursula /Users/Shared/MyFile.txt
+  ```
+
+- **Recursively change ownership of everything in a directory**:
+  ```bash
+  sudo chown -R Ursula:staff /Users/Shared/tmp/
+  ```
+
+- **Change ownership of only hidden files in a directory**:
+  To avoid issues with symbolic links, use this command:
+  ```bash
+  sudo chown -R audrey /Work/.[^.]* 
+  ```

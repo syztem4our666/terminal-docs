@@ -1,0 +1,19 @@
+{
+  "title": "Linux",
+  "icon": "Terminal",
+  "description": "Linux system administration and management",
+  "pages": [
+    "commands",
+    "Linux-Terminal",
+    "filesandfolders",
+    "find",
+    "linuxconsole",
+    "network",
+    "ssh",
+    "system",
+    "usersandgroups",
+    "RedHat-SELinux",
+    "cheatsheets"
+  ],
+  "root": true
+}

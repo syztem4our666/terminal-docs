@@ -1,0 +1,194 @@
+---
+title: Diskpart
+description: Diskpart manual
+---
+#### Diskpart Manual
+
+#### How to Access Diskpart
+
+1. Open a command prompt with administrative privileges.
+2. Type `diskpart` and press Enter to enter the Diskpart interface.
+
+---
+
+#### Common Diskpart Commands
+
+#### 1. Work with Disks:
+
+- `list disk`  
+  Lists all disks connected to your system, showing their size and status.
+  
+  ```sh
+  list disk
+  ```
+
+- `select disk disk_number`  
+  Selects a specific disk by its number for further operations. Replace `disk_number` with the actual disk number (e.g., `select disk 0`).
+  
+  ```sh
+  select disk 0
+  ```
+
+- `detail disk`  
+  Displays detailed information about the selected disk, including its partitions, status, and size.
+  
+  ```sh
+  detail disk
+  ```
+
+- `clean`  
+  Removes all partitions and data from the selected disk, essentially resetting it to an "uninitialized" state.
+  
+  ```sh
+  clean
+  ```
+
+- `convert mbr|gpt`  
+  Converts the selected disk to MBR (Master Boot Record) or GPT (GUID Partition Table). This operation erases all partitions on the disk.
+  
+  ```sh
+  convert mbr
+  ```
+  or
+   ```sh
+  convert gpt
+  ```
+
+---
+
+#### 2. Work with Partitions (After selecting a disk):
+
+- `list partition`  
+  Lists all partitions on the selected disk.
+  
+  ```sh
+  list partition
+  ```
+
+- `select partition partition_number`  
+  Selects a specific partition on the selected disk. Replace `partition_number` with the partition number (e.g., `select partition 1`).
+  
+  ```sh
+  select partition 1
+  ```
+
+- `create partition primary size=5000`  
+  Creates a primary partition with a size of 5000 MB. If no size is specified, it will take up all unallocated space.
+  
+  ```sh
+  create partition primary size=5000
+  ```
+
+- `create partition extended size=20000`  
+  Creates an extended partition. This partition type allows you to create logical partitions within it.
+  
+  ```sh
+  create partition extended size=20000
+  ```
+
+- `create partition logical size=10000`  
+  Creates a logical partition within the extended partition, using the specified size.
+  
+  ```sh
+  create partition logical size=10000
+  ```
+
+- `delete partition`  
+  Deletes the selected partition.
+  
+  ```sh
+  delete partition
+  ```
+
+---
+
+#### 3. Formatting and Assigning Letters to Partitions:
+
+- `format fs=ntfs quick`  
+  Formats the selected partition with the NTFS file system using a quick format.
+  
+  ```sh
+  format fs=ntfs quick
+  ```
+
+- `assign letter=D`  
+  Assigns a drive letter to the selected partition, making it accessible through Windows Explorer.
+  
+  ```sh
+  assign letter=D
+  ```
+
+- `remove letter=D`  
+  Removes the assigned letter from the selected partition.
+  
+  ```sh
+  remove letter=D
+  ```
+
+---
+
+#### 4. Partition Modifications:
+
+- `extend`  
+  Extends the selected partition into any unallocated space available after it. If no size is specified, the partition will use all available space.
+  
+  ```sh
+  extend
+  ```
+
+- `shrink desired=5000`  
+  Shrinks the selected partition by the specified amount (5000 MB in this case), creating unallocated space.
+  
+  ```sh
+  shrink desired=5000
+  ```
+
+- `active`  
+  Marks the selected partition as active. Only one partition can be active at a time, and it is used to boot the operating system.
+  
+  ```sh
+  active
+  ```
+
+- `inactive`  
+  Marks the selected partition as inactive.
+  
+  ```sh
+  inactive
+  ```
+
+---
+
+#### 5. Working with Volumes (Dynamic Disks):
+
+Volumes are different from basic partitions. On dynamic disks, a volume can span multiple partitions or disks.
+
+- `list volume`  
+  Lists all volumes on the system, whether they are on basic or dynamic disks.
+  
+  ```sh
+  list volume
+  ```
+
+- `select volume volume_number`  
+  Selects a volume for further operations. Replace `volume_number` with the volume number (e.g., `select volume 1`).
+  
+  ```sh
+  select volume 1
+  ```
+
+- `detail volume`  
+  Shows detailed information about the selected volume, including file system and size.
+  
+  ```sh
+  detail volume
+  ```
+
+- `delete volume`  
+  Deletes the selected volume.
+  
+  ```sh
+  delete volume
+  ```
+---
+

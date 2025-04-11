@@ -1,0 +1,209 @@
+---
+title: One Liners
+description: Linux oneliners
+---
+
+#### Run the last command as root
+```bash
+sudo !!
+```
+
+#### Serve current directory tree at http://$HOSTNAME:8000/
+```bash
+python -m SimpleHTTPServer
+```
+
+#### Runs previous command but replacing
+```bash
+^foo^bar
+```
+
+#### Rapidly invoke an editor to write a long, complex, or tricky command
+```bash
+ctrl-x e
+```
+
+#### Place the argument of the most recent command on the shell
+```bash
+'ALT+.' or '<ESC> .'
+```
+
+#### Currently mounted filesystems in nice layout
+```bash
+mount | column -t
+```
+
+#### Salvage a borked terminal
+```bash
+reset
+```
+
+#### Get your external IP address
+```bash
+curl ifconfig.me
+```
+
+#### Execute a command at a given time
+```bash
+echo "ls -l" | at midnight
+```
+
+#### Quick access to the ascii table
+```bash
+man ascii
+```
+
+#### Output your microphone to a remote computer's speaker
+```bash
+dd if=/dev/dsp | ssh -c arcfour -C username@host dd of=/dev/dsp
+```
+
+#### Type partial command, kill this command, check something you forgot, yank the command, resume typing
+```bash
+<ctrl+u> [...] <ctrl+y>
+```
+
+#### Query Wikipedia via console over DNS
+```bash
+dig +short txt <keyword>.wp.dg.cx
+```
+
+#### Mount folder/filesystem through SSH
+```bash
+sshfs name@server:/path/to/folder /path/to/mount/point
+```
+
+#### Mount a temporary ram partition
+```bash
+mount -t tmpfs tmpfs /mnt -o size=1024m
+```
+
+#### Download an entire website
+```bash
+wget --random-wait -r -p -e robots=off -U mozilla http://www.example.com
+```
+
+#### Clear the terminal screen
+```bash
+ctrl-l
+```
+
+#### Compare a remote file with a local file
+```bash
+ssh user@host cat /path/to/remotefile | diff /path/to/localfile -
+```
+
+#### SSH connection through host in the middle
+```bash
+ssh -t reachable_host ssh unreachable_host
+```
+
+#### Update Twitter via curl
+```bash
+curl -u user:pass -d status="Tweeting from the shell" http://twitter.com/statuses/update.xml
+```
+
+#### A very simple and useful stopwatch
+```bash
+time read (ctrl-d to stop)
+```
+
+#### Put a console clock in top right corner
+```bash
+while sleep 1; do tput sc; tput cup 0 $(($(tput cols)-29)); date; tput rc; done &
+```
+
+#### Make 'less' behave like 'tail -f'
+```bash
+less +F somelogfile
+```
+
+#### Close shell keeping all subprocess running
+```bash
+disown -a && exit
+```
+
+#### Watch Star Wars via telnet
+```bash
+telnet towel.blinkenlights.nl
+```
+
+#### 32 bits or 64 bits?
+```bash
+getconf LONG_BIT
+```
+
+#### List of commands you use most often
+```bash
+history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
+```
+
+#### Simulate typing
+```bash
+echo "You can simulate on-screen typing just like in the movies" | pv -qL 10
+```
+
+#### Set audible alarm when an IP address comes online
+```bash
+ping -i 60 -a IP_address
+```
+
+#### Reboot machine when everything is hanging
+```bash
+<alt> + <print screen/sys rq> + <R> - <S> - <E> - <I> - <U> - <B>
+```
+
+#### Quickly rename a file
+```bash
+mv filename.{old,new}
+```
+
+#### Display the top ten running processes - sorted by memory usage
+```bash
+ps aux | sort -nk +4 | tail
+```
+
+#### Delete all files in a folder that don't match a certain file extension
+```bash
+rm !(*.foo|*.bar|*.baz)
+```
+
+#### Push your present working directory to a stack that you can pop later
+```bash
+pushd /tmp
+```
+
+#### Create a script of the last executed command
+```bash
+echo "!!" > foo.sh
+```
+
+#### Watch Network Service Activity in Real-time
+```bash
+lsof -i
+```
+
+#### Easy and fast access to often executed commands that are very long and complex
+```bash
+some_very_long_and_complex_command # label
+```
+
+#### Escape any command aliases
+```bash
+\[command]
+```
+
+#### Show apps that use internet connection at the moment (Multi-Language)
+```bash
+lsof -P -i -n
+```
+
+#### Diff two unsorted files without creating temporary files
+```bash
+diff <(sort file1) <(sort file2)
+```
+
+#### Reuse all parameters of the previous command line
+```bash
+!*
+```

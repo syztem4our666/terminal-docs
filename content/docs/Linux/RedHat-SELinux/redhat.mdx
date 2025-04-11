@@ -1,0 +1,99 @@
+---
+title: RedHat-SeLinux
+description: Linux
+---
+![Image](./se-linux-Redhat-logo.png)
+
+# What is SELinux?
+
+SELinux is a security module in the Linux kernel designed to control access to each process, file, and system resource, establishing restrictions on what each can do. It does not replace user permissions (like rwx), but adds an additional layer of access control based on security policies.
+
+**Key concept:** SELinux assigns labels (or tags) to files, directories, processes, and other resources. These labels, along with policy rules, determine whether a process can access or modify a specific resource.
+
+## How does SELinux work?
+
+SELinux uses security policies to establish what is allowed and what is not in the system. These policies control the interaction between processes and system objects (files, ports, etc.).
+
+- **Labeling Policy:** Each element in the system receives a label that describes its type (e.g., configuration files, executables, etc.).
+- **Policy Enforcement:** The kernel applies these rules and decides whether a process can perform a specific action on a labeled object.
+
+## Labels in SELinux
+
+Each resource in the system has a security context or label. This context follows a four-part format:
+
+```shell
+user:role:type:level
+```
+
+- **User:** The identity (user) recognized by SELinux.
+- **Role:** Defines the role, part of access control.
+- **Type:** This is the most important, defining the domain of the process or file.
+- **Level:** Optional, for multi-level security (MLS/MCS).
+
+**Example:** In the case of an Apache web file, its label might be `system_u:object_r:httpd_sys_content_t:s0`. Here the type `httpd_sys_content_t` identifies this file as Apache static content.
+
+## SELinux Modes
+
+SELinux can operate in three different modes, which define how the system enforces policies:
+
+- **Enforcing:** SELinux enforces policies and blocks unauthorized access.
+- **Permissive:** SELinux allows unauthorized access but logs it for review.
+- **Disabled:** SELinux is not active at all.
+
+You can check the current SELinux mode with:
+
+```bash
+getenforce
+```
+
+To change the mode temporarily:
+
+```bash
+setenforce [1|0]   # 1 = Enforcing, 0 = Permissive
+```
+
+## Type Policies in SELinux
+
+SELinux uses type policies to restrict interaction between processes and objects. There are two main policies in RHEL:
+
+- **Targeted:** Confines specific processes (like web services and databases), while other processes operate without additional restrictions.
+- **MLS (Multi-Level Security):** A more complex policy that classifies resources by security levels, useful in highly secure environments, though less common.
+
+## Working with SELinux on Files and Processes
+
+When working with files and processes in SELinux, some common tools for managing labels include:
+
+- **ls -Z:** Displays the SELinux context of a file.
+
+  ```bash
+  ls -Z /var/www/html
+  ```
+
+- **ps -Z:** Displays the SELinux context of processes.
+
+  ```bash
+  ps -Z aux | grep httpd
+  ```
+
+- **chcon:** Temporarily changes the context of a file.
+
+  ```bash
+  chcon -t httpd_sys_content_t /var/www/html/index.html
+  ```
+
+- **restorecon:** Restores the original SELinux context of a file.
+
+  ```bash
+  restorecon -vR /var/www/html
+  ```
+
+## Troubleshooting SELinux
+
+When working with SELinux, it is common for certain accesses to be blocked, which can be seen in the audit logs:
+
+- **SELinux Error Logs:** Found in `/var/log/audit/audit.log` or `/var/log/messages`.
+- **ausearch Tool:** Helps search for SELinux-related errors.
+
+  ```bash
+  ausearch -m AVC,USER_AVC,SELINUX_ERR -ts today -i
+  ```

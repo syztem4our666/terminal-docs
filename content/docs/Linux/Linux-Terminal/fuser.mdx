@@ -1,0 +1,124 @@
+---
+title: Fuser
+description: Linux Terminal Util
+---
+#### fuser 
+Identify processes using files or sockets, optionally killing the process that is accessing the file.
+
+### Syntax:
+```bash
+fuser [-a|-s|-c] [-4|-6] [-n space ] [-k [-i] [-signal ] ] [-muvf] name
+fuser -l
+fuser -V
+```
+
+### Options:
+
+#### **-a**
+Show all files specified on the command line. By default, only files that are accessed by at least one process are shown.
+
+#### **-c**
+Same as `-m` option, used for POSIX compatibility.
+
+#### **-f**
+Silently ignored, used for POSIX compatibility.
+
+#### **-k**
+Kill processes accessing the specified file.  
+If not specified with `-signal`, `SIGKILL` is sent.  
+An `fuser` process will never kill itself, but it can kill other `fuser` processes.  
+The effective user ID of the process executing `fuser` is set to its real user ID before attempting to kill.
+
+#### **-i**
+Ask for confirmation before killing a process. This is ignored unless `-k` is also used.
+
+#### **-l**
+List all known signal names.
+
+#### **-m name**
+Specifies a file or file system that is mounted.  
+All processes accessing files on that file system will be listed.  
+If a directory is specified, it is automatically treated as `name/`.
+
+#### **-n space**
+Select a different namespace:  
+- `file` (default) for files.  
+- `udp` for local UDP ports.  
+- `tcp` for local TCP ports.  
+You can specify a shortcut like `80/tcp` for specific ports.
+
+#### **-s**
+Silent operation. The options `-u` and `-v` are ignored in this mode.  
+The `-a` option cannot be used with `-s`.
+
+#### **-signal**
+Specify a signal to use instead of `SIGKILL` when killing processes (e.g., `-HUP` or signal number).  
+This is ignored unless used with `-k`.
+
+#### **-u**
+Append the username of the process owner to each PID.
+
+#### **-v**
+Verbose mode.  
+Processes are shown in a `ps`-like format with fields such as `PID`, `USER`, `COMMAND`, `ACCESS`.  
+If the access is by the kernel (e.g., a swap file), `kernel` is shown instead of the PID.
+
+#### **-V**
+Display version information.
+
+#### **-4**
+Search only for IPv4 sockets.  
+This must not be used with `-6` and only affects `tcp` and `udp` namespaces.
+
+#### **-6**
+Search only for IPv6 sockets.  
+This must not be used with `-4` and only affects `tcp` and `udp` namespaces.
+
+#### **-**
+Reset all options and revert the signal back to `SIGKILL`.
+
+### Output:
+`fuser` outputs a list of PIDs for processes that are using the specified files or file systems. The type of access is indicated by a letter after the file name:
+- `c` - Current directory.
+- `e` - Executable being run.
+- `f` - Open file.
+- `F` - Open file for writing.
+- `r` - Root directory.
+- `m` - Memory-mapped file or shared library.
+
+If multiple processes access the same file, only one entry will be shown for each access type. If a file is specified multiple times, some entries may be omitted.
+
+### Examples:
+
+1. **Kill all processes accessing the `/home` directory**:
+```bash
+$ fuser -km /home
+```
+
+2. **List the process (or processes) locking a file**:
+```bash
+$ fuser -f /path/to/file
+```
+
+3. **Check if no process is using `/dev/ttyS1` before running a command**:
+```bash
+$ if fuser -s /dev/ttyS1; then :; else something; fi
+```
+
+4. **Show processes using the local TELNET port (assuming port 23)**:
+```bash
+$ fuser 23/tcp
+```
+
+5. **Show processes accessing a specific file and display verbose output**:
+```bash
+$ fuser -v /path/to/file
+```
+
+### Restrictions:
+- **Privileges**: `fuser` requires root privileges to display information about processes owned by other users. Without elevated privileges, information may be incomplete.
+- **Kernel access**: Processes accessing kernel resources may only be shown with the `-v` option.
+- **UDP and TCP**: `fuser` works with both IPv6 and IPv4 for `udp` and `tcp` namespaces, but the address fields for TCP and UDP can only accept IPv4 addresses.
+
+### Files:
+- **Location of the proc file system**: `/proc`

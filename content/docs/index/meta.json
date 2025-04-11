@@ -1,0 +1,7 @@
+{
+  "title": "Home",
+  "icon": "Library",
+  "pages": ["index", "resources"],
+  "description": "Index of the documentation",
+  "root": true
+}
