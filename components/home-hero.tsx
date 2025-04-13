@@ -32,7 +32,7 @@ export function HomeHero() {
 			A growing personal and beautifully organized archive with commands and scripts for
 				{' '}
 				<span className="text-secondary-foreground">
-				Pentesing & System Administration
+				Pentesting & System Administration
 				</span>
 				.
 			</p>
