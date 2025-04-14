@@ -1,0 +1,185 @@
+---
+title: RedHat Package Manager
+description: RHEL
+---
+
+#### Install Software Using Package Managers
+<Callout>Package managers are centralized methods of accessing software repositories. Using package managers for installing and updating software removes many opportunities for user error and automates numerous installation steps.  
+On RHEL, DNF is the default package manager, but you will also see RPM.</Callout>
+
+#### Install a package with dnf
+To install a package, use the `dnf install` command. Here's an example for installing `nmap`:
+
+```bash
+dnf -y install nmap
+```
+You can verify the installation with the `dnf list` command:
+
+```bash
+dnf list nmap
+```
+
+#### Updating a package
+To list available updates, use the following command:
+
+```bash
+dnf list updates
+```
+
+The `list` subcommand is useful for finding out which packages have available updates on the system. Here's an example of the output:
+
+```bash
+dnf list updates
+
+<< OUTPUT ABRIDGED >>
+Available Upgrades
+bash.x86_64              4.4.20-2.el8                               rhui-rhel-8-for-x86_64-baseos-rhui-rpms
+chrony.x86_64            4.1-1.el8                                  rhui-rhel-8-for-x86_64-baseos-rhui-rpms
+systemd.x86_64           239-51.el8_5.3                             rhui-rhel-8-for-x86_64-baseos-rhui-rpms
+<< OUTPUT ABRIDGED >>
+```
+
+Many packages on this system have updates available. Specifying a package name with `dnf update` will constrain this operation to only look for that package.
+<Callout>If you instead want to make sure your entire system is up to date, running `dnf update` without any other arguments will apply updates for all packages on your system (including YUM itself)</Callout>
+
+#### Using `dnf history` to Roll Back a Transaction
+
+The `history` subcommand provides a summary of recent `dnf` transactions.
+
+```bash
+dnf history
+```
+
+The output contains transaction IDs in the first column, which are used to reference specific locations in the transaction history when executing rollbacks.
+
+```bash
+ID| Command                  | Date and time    | Action(s) | Altered
+------------------------------------------------------------------
+12 | -y remove httpd           | 2021-12-22 01:12 | Removed  |   10
+11 | -y update bash            | 2021-12-22 01:12 | Upgrade  |    1
+10 | -y install wireshark      | 2021-12-22 01:07 | Install  |   98
+ 9 | install -y httpd          | 2021-12-22 01:04 | Install  |   10  <
+ 8 |                           | 2021-12-22 01:02 | I, U     |   81 >
+ 7 | install -y git            | 2021-09-03 15:10 | Install  |   48
+```
+
+This subcommand is also useful for rolling back transactions if you erroneously install or update a package, as it cleans up all of the dependencies associated with the package.  
+For example, to roll back the state of your system to before you uninstalled `httpd`, use the following command:
+
+```bash
+dnf -y history rollback 12
+```
+
+<Callout>The number `12` specifies that the rollback will return the system to the state it was in at transaction ID 12, or before you removed `httpd`.</Callout>
+
+#### Using RPM to Run Detailed Queries
+
+<Callout>DNF is the standard package manager, but that doesn't mean that RPM is obsolete. Detailed queries can be carried out using RPM with the query option (`-q`). This section will walk you through three examples of how to use this option.</Callout>
+
+#### Listing Files Installed by a Package
+
+You can combine the `-q` option with the list option (`-l`) to display all of the files installed by a specific package. This information is hidden by default to keep the package installation process simple, but it is often useful to know where specific files are located.
+
+```bash
+rpm -ql wireshark
+```
+
+**Example Output**:
+```bash
+/usr/bin/wireshark
+```
+
+Now you can see that the `Wireshark` application is located at `/usr/bin/wireshark`.
+
+#### Listing Installation Scripts
+
+Some packages run scripts to finish their installation process. The `--scripts` option can be used in combination with `rpm -q` to return the contents of these post-installation scripts for a specific package. `Wireshark` does not have post-install scripts, so let's try this with the `httpd` package.
+
+```bash
+rpm -q --scripts httpd
+```
+
+**Example Output**:
+```bash
+# Scriptlets installed for httpd:
+postinstall script: /usr/libexec/httpd/httpd-post-install
+```
+
+The output shows a script that creates a preset for the `httpd` service behind the scenes when the package is installed.
+
+#### Showing Changelog
+
+You can use the `--changelog` option with `rpm -q` to display recent changes in a package.
+
+```bash
+rpm -q --changelog wireshark
+```
+
+**Example Output**:
+```bash
+* Tue Feb 2 2021 Wireshark Development Team - 3.2.4-1
+- Bug fix for UDP dissector crash
+- Improved handling of malformed packets
+```
+This command shows the changelog for the specified package, listing what has recently changed in the package.
+
+#### Validating Package Files Using `rpm`
+
+If a program is suddenly misbehaving, it could be related to key files not being installed properly. `rpm` has a validation option (`-V`) that compares the local files with the expected files for the package. 
+
+#### Test Example: Missing File in Wireshark
+
+Remove a file from the `Wireshark` package to test out this validation functionality:
+
+```bash
+rm -f /usr/share/icons/hicolor/256x256/apps/wireshark.png
+```
+
+Use the `-V` option with `rpm` to check the file status of `Wireshark`:
+
+```bash
+rpm -V wireshark
+```
+
+**Example Output**:
+```bash
+missing     /usr/share/icons/hicolor/256x256/apps/wireshark.png
+```
+
+Now that you can see there is a missing file, reinstall the `Wireshark` package to return it to its proper state:
+
+```bash
+dnf -y reinstall wireshark
+```
+
+**Example Output**:
+```bash
+Arch   Version        Repository                        Size
+===================================================================
+Reinstalling:
+wireshark
+x86_64 1:2.6.2-12.el8 rhel-9-for-x86_64-appstream-rpms 3.7 M
+```
+
+Check that `wireshark.png` has been restored:
+
+```bash
+ls /usr/share/icons/hicolor/256x256/apps/
+wireshark.png
+```
+
+#### Validating Changes in Package Files
+
+The command `rpm -V` is useful for more than just finding missing files. This command can also inform you if any files have changed since installation. 
+
+To test this out, run the validation command on the `PAM` package:
+
+```bash
+rpm -V pam
+```
+
+**Example Output**:
+```bash
+S.5....T.  c /etc/pam.d/password-auth
+S.5....T.  c /etc/pam.d/system-auth
+```

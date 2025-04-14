@@ -1,23 +1,23 @@
 ---
 title: RedHat-SeLinux
-description: Linux
+description: RHEL
 ---
 ![Image](./se-linux-Redhat-logo.png)
 
-# What is SELinux?
+#### What is SELinux?
 
 SELinux is a security module in the Linux kernel designed to control access to each process, file, and system resource, establishing restrictions on what each can do. It does not replace user permissions (like rwx), but adds an additional layer of access control based on security policies.
 
 **Key concept:** SELinux assigns labels (or tags) to files, directories, processes, and other resources. These labels, along with policy rules, determine whether a process can access or modify a specific resource.
 
-## How does SELinux work?
+#### How does SELinux work?
 
 SELinux uses security policies to establish what is allowed and what is not in the system. These policies control the interaction between processes and system objects (files, ports, etc.).
 
 - **Labeling Policy:** Each element in the system receives a label that describes its type (e.g., configuration files, executables, etc.).
 - **Policy Enforcement:** The kernel applies these rules and decides whether a process can perform a specific action on a labeled object.
 
-## Labels in SELinux
+#### Labels in SELinux
 
 Each resource in the system has a security context or label. This context follows a four-part format:
 
@@ -32,7 +32,7 @@ user:role:type:level
 
 **Example:** In the case of an Apache web file, its label might be `system_u:object_r:httpd_sys_content_t:s0`. Here the type `httpd_sys_content_t` identifies this file as Apache static content.
 
-## SELinux Modes
+#### SELinux Modes
 
 SELinux can operate in three different modes, which define how the system enforces policies:
 
@@ -52,14 +52,14 @@ To change the mode temporarily:
 setenforce [1|0]   # 1 = Enforcing, 0 = Permissive
 ```
 
-## Type Policies in SELinux
+#### Type Policies in SELinux
 
 SELinux uses type policies to restrict interaction between processes and objects. There are two main policies in RHEL:
 
 - **Targeted:** Confines specific processes (like web services and databases), while other processes operate without additional restrictions.
 - **MLS (Multi-Level Security):** A more complex policy that classifies resources by security levels, useful in highly secure environments, though less common.
 
-## Working with SELinux on Files and Processes
+#### Working with SELinux on Files and Processes
 
 When working with files and processes in SELinux, some common tools for managing labels include:
 
@@ -87,7 +87,7 @@ When working with files and processes in SELinux, some common tools for managing
   restorecon -vR /var/www/html
   ```
 
-## Troubleshooting SELinux
+#### Troubleshooting SELinux
 
 When working with SELinux, it is common for certain accesses to be blocked, which can be seen in the audit logs:
 

@@ -1,0 +1,329 @@
+---
+title: Proxmox
+description: Proxmox Virtual Environment
+---
+![Image](./proxmox.jpg)
+
+<Callout>Proxmox Virtual Environment (Proxmox VE) is an open-source server virtualization platform that integrates KVM (Kernel-based Virtual Machine) and LXC (Linux Containers). 
+It offers a powerful web interface to manage virtual machines, containers, storage, networking, and high-availability clusters.</Callout>
+
+#### Configuration System Paths on Proxmox
+<Callout>Important Proxmox-specific system paths for configs</Callout>
+
+#### LXC Container Config File
+```bash
+/etc/pve/lxc/<CTID>.conf
+```
+
+#### QEMU/KVM Virtual Machine Config File
+```bash
+/etc/pve/qemu-server/<VMID>.conf
+```
+
+#### Storage Configuration
+```bash
+/etc/pve/storage.cfg
+```
+
+#### Datacenter Configuration
+```bash
+/etc/pve/datacenter.cfg
+```
+
+#### User Configuration
+```bash
+/etc/pve/user.cfg
+```
+
+#### Firewall Configuration Directory
+```bash
+/etc/pve/firewall/
+```
+
+#### HA Cluster Configuration
+```bash
+/etc/pve/cluster.conf
+```
+
+#### Private Keys & Certs
+```bash
+/etc/pve/priv/
+```
+
+#### Container Configs for a Specific Node (Clustered View)
+```bash
+/etc/pve/nodes/<node>/lxc/
+```
+
+#### VM Configs for a Specific Node (Clustered View)
+```bash
+/etc/pve/nodes/<node>/qemu-server/
+```
+
+#### Proxmox Node SSL Certificate
+```bash
+/etc/pve/local/pve-ssl.pem
+```
+
+#### Proxmox Node SSL Private Key
+```bash
+/etc/pve/local/pve-ssl.key
+```
+
+#### Basics
+
+```bash title="List all VMs"
+qm list
+```
+
+```bash title="Create a VM"
+qm create <vmid>
+```
+
+```bash title="Start a VM"
+qm start <vmid>
+```
+
+```bash title="Suspend a VM"
+qm suspend <vmid>
+```
+
+```bash title="Shutdown a VM"
+qm shutdown <vmid>
+```
+
+```bash title="Reboot a VM"
+qm reboot <vmid>
+```
+
+```bash title="Reset a VM"
+qm reset <vmid>
+```
+
+```bash title="Stop a VM"
+qm stop <vmid>
+```
+
+```bash title="Destroy a VM"
+qm destroy <vmid>
+```
+
+---
+
+#### VM Configuration & Control
+
+```bash title="Enter Qemu Monitor Interface"
+qm monitor <vmid>
+```
+
+```bash title="Show Pending Configuration"
+qm pending <vmid>
+```
+
+```bash title="Send Key to VM"
+qm sendkey <vmid> <key> [OPTIONS]
+```
+
+```bash title="Show VM Start Command"
+qm showcmd <vmid> [OPTIONS]
+```
+
+```bash title="Unlock a VM"
+qm unlock <vmid>
+```
+
+---
+
+#### Cloning & Migration
+
+```bash title="Clone a VM"
+qm clone <vmid> <newid>
+```
+
+```bash title="Full Clone with Name"
+qm clone <newid> --full --name <name>
+```
+
+```bash title="Migrate a VM"
+qm migrate <vmid> <target-node>
+```
+
+---
+
+#### Disk Management (PV/VG/LV)
+
+```bash title="Create a PV"
+pvcreate <disk-device-name>
+```
+
+```bash title="Remove a PV"
+pvremove <disk-device-name>
+```
+
+```bash title="List all PVs"
+pvs
+```
+
+```bash title="Create a VG"
+vgcreate <vg-name> <disk-device-name>
+```
+
+```bash title="Remove a VG"
+vgremove <vg-name>
+```
+
+```bash title="List all VGs"
+vgs
+```
+
+```bash title="Create a LV"
+lvcreate -L <lv-size> -n <lv-name> <vg-name>
+```
+
+```bash title="Remove a LV"
+lvremove <vg-name>/<lv-name>
+```
+
+```bash title="List all LVs"
+lvs
+```
+
+---
+
+#### VM Disk Management
+
+```bash title="Import Disk to VM"
+qm disk import <vmid> <source> <storage>
+```
+
+```bash title="Move VM Disk"
+qm disk move <vmid> <disk> [<storage>] [OPTIONS]
+```
+
+```bash title="Rescan Disk Sizes"
+qm disk rescan [OPTIONS]
+```
+
+```bash title="Resize VM Disk"
+qm disk resize <vmid> <disk> <size> [OPTIONS]
+```
+
+```bash title="Unlink/Delete VM Disk"
+qm disk unlink <vmid> --idlist <string> [OPTIONS]
+```
+
+```bash title="Rescan Volumes"
+qm rescan
+```
+
+---
+
+#### Snapshots
+
+```bash title="List Snapshots"
+qm listsnapshot <vmid>
+```
+
+```bash title="Create a Snapshot"
+qm snapshot <vmid> <snapname>
+```
+
+```bash title="Delete a Snapshot"
+qm delsnapshot <vmid> <snapname>
+```
+
+```bash title="Rollback to Snapshot"
+qm rollback <vmid> <snapname>
+```
+
+---
+
+#### Terminal & VNC
+
+```bash title="Access VM Serial Terminal"
+qm terminal <vmid> [OPTIONS]
+```
+
+```bash title="Proxy VM VNC to stdin/stdout"
+qm vncproxy <vmid>
+```
+
+---
+
+#### QEMU Guest Agent
+
+```bash title="Run Guest Agent Command"
+qm guest cmd <vmid> <command>
+```
+
+```bash title="Execute Command via Guest Agent"
+qm guest exec <vmid> [<extra-args>] [OPTIONS]
+```
+
+```bash title="Get Guest Exec Status"
+qm guest exec-status <vmid> <pid>
+```
+
+```bash title="Set Guest User Password"
+qm guest passwd <vmid> <username> [OPTIONS]
+```
+
+---
+
+#### CloudInit
+
+```bash title="Dump CloudInit Config"
+qm cloudinit dump <vmid> <type>
+```
+
+```bash title="Show Pending CloudInit Config"
+qm cloudinit pending <vmid>
+```
+
+```bash title="Update CloudInit Drive"
+qm cloudinit update <vmid>
+```
+
+---
+
+#### Storage Management (pvesm)
+
+```bash title="Add New Storage"
+pvesm add [OPTIONS]
+```
+
+```bash title="Allocate Disk Image"
+pvesm alloc [OPTIONS]
+```
+
+```bash title="Free/Delete Volume"
+pvesm free [OPTIONS]
+```
+
+```bash title="Remove Storage"
+pvesm remove
+```
+
+```bash title="List Storage Content"
+pvesm list [OPTIONS]
+```
+
+```bash title="Scan Local LVM"
+pvesm scan lvm
+```
+
+```bash title="Scan Local LVM Thin"
+pvesm scan lvmthin
+```
+
+```bash title="Scan LVM Alias"
+pvesm lvmscan
+```
+
+```bash title="Scan LVMThin Alias"
+pvesm lvmthinscan
+```
+
+```bash title="Check Datastore Status"
+pvesm status [OPTIONS]
+```

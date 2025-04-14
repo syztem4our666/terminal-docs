@@ -13,6 +13,7 @@
     "system",
     "usersandgroups",
     "RedHat-SELinux",
+    "proxmox",
     "cheatsheets"
   ],
   "root": true
