@@ -1,0 +1,94 @@
+---
+title: MBR and Boot
+description: Fixing MBR Partition and Boot
+---
+### MBR and Boot Repair
+
+### **1. Repairing MBR**
+
+#### **`bootrec /fixmbr`**
+- **Description**: Repairs the Master Boot Record (MBR) on the disk.
+- **Usage**: When the MBR is corrupted or overwritten, preventing the system from booting.
+- **Command**:
+    ```bash
+    bootrec /fixmbr
+    ```
+    - This command does not affect partitions, it simply replaces the code in the MBR with the correct one to start the boot process.
+
+#### **`bootrec /fixboot`**
+- **Description**: Repairs the boot sector of the active partition.
+- **Usage**: When the boot sector of the partition is damaged or missing, and the system cannot start.
+- **Command**:
+    ```bash
+    bootrec /fixboot
+    ```
+    - This command rewrites the boot sector of the partition where the OS is installed. It is useful when the MBR is fine but the system fails to boot due to issues with the boot sector.
+
+#### **2. Check and Repair File System**
+
+#### **`chkdsk /f c:`**
+- **Description**: Checks the file system of the specified partition (`c:` in this case) for errors and attempts to fix them.
+- **Usage**: When your disk or partition has logical file system errors.
+- **Command**:
+    ```bash
+    chkdsk /f c:
+    ```
+    - **`/f`**: Fixes any errors found on the disk.
+    - This command may require a restart if the partition is in use by the operating system.
+
+### **3. Reactivating the Active Partition**
+
+#### **`diskpart`** (for managing partitions)
+
+- **Description**: A tool for managing disks and partitions. Use this to set a partition as active or inactive.
+- **Steps to Reactivate a Partition**:
+    1. Open **DiskPart**:
+       ```bash
+       diskpart
+       ```
+
+    2. Select the disk where the partition is located:
+       ```bash
+       select disk 0
+       ```
+       *(Replace `0` with the appropriate disk number)*
+
+    3. List all partitions on the selected disk:
+       ```bash
+       list partition
+       ```
+
+    4. Select the partition you want to make active:
+       ```bash
+       select partition X  # Replace X with the partition number
+       ```
+
+    5. Set the partition as active:
+       ```bash
+       active
+       ```
+
+    **To Deactivate a Partition**:
+    If you want to **deactivate** a partition (remove the active flag), use the `inactive` command:
+    ```bash
+    inactive
+    ```
+    - This removes the "active" flag from the selected partition.
+
+---
+
+#### **Usage Summary**
+
+- **`bootrec /fixmbr`**: Fixes the MBR to make the disk bootable.
+- **`bootrec /fixboot`**: Fixes the boot sector of the active partition.
+- **`chkdsk /f c:`**: Checks and fixes file system errors on the C: drive.
+- **`diskpart`**: Used for managing partitions (activating, deactivating, and listing).
+
+Make sure to run these commands from a **Windows Recovery Environment** (WinRE) or a **bootable USB** if your system is not booting. Use them carefully to avoid accidental data loss, especially when managing partitions.
+
+---
+
+#### **Quick Links**
+- [Microsoft DiskPart Documentation](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/diskpart)
+- [Microsoft Bootrec Documentation](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bootrec)
+- [CHKDSK Command Details](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/chkdsk)

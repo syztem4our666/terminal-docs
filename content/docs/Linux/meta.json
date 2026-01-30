@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../.source/json-schema/docs.meta.json",
+  "title": "Linux",
+  "icon": "Book",
+  "description": "Linux Administration",
+  "root": true
+}

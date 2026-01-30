@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../.source/json-schema/docs.meta.json",
+  "title": "Networks",
+  "icon": "Network",
+  "description": "Networking and security",
+  "pages": [
+    "index",
+    "ciscocommands",
+    "ciscosecurity",
+    "subnets"
+  ],
+  "root": true
+}

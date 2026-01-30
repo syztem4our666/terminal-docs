@@ -1,0 +1,250 @@
+---
+title: MySQL CheatSheet
+description: CheatSheet
+---
+#### Creating a Database: CREATE DATABASE
+
+To create a database, use:
+```sql
+CREATE DATABASE database_name;
+```
+
+Example:
+```sql
+CREATE DATABASE company;
+```
+
+Output:
+```sql
+MariaDB [(none)]> CREATE DATABASE company;
+Query OK, 1 row affected (0.001 sec)
+```
+
+To show databases, use:
+```sql
+SHOW DATABASES;
+```
+
+Output:
+```sql
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| company            |
+| sys                |
++--------------------+
+5 rows in set (0.000 sec)
+```
+
+To use the created database "company", use:
+```sql
+USE database_name;
+```
+
+Example:
+```sql
+USE company;
+
+MariaDB [(none)]> USE company;
+Database changed
+```
+
+#### Creating a Table and Showing its Fields (CREATE TABLE - SHOW TABLES - DESCRIBE - DROP TABLE)
+
+*A database stores its data in tables. This is a data structure that organizes data in columns and rows; each column is a field (or attribute) and each row, a record. The intersection of a column with a row contains a specific data value.*
+
+To create a table, use:
+```sql
+CREATE TABLE table_name (
+    column1 datatype,
+    column2 datatype,
+    ...
+);
+```
+
+Example:
+```sql
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    emp_salary DECIMAL(10, 2),
+    emp_hire_date DATE
+);
+```
+
+To describe the table, use:
+```sql
+DESCRIBE table_name;
+```
+
+Output:
+```sql
+MariaDB [company]> DESCRIBE employees;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| emp_id      | int(11)      | NO   | PRI | NULL    |       |
+| emp_name    | varchar(50)  | YES  |     | NULL    |       |
+| emp_salary  | decimal(10,2)| YES  |     | NULL    |       |
+| emp_hire_date | date       | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.006 sec)
+```
+
+To show all tables in the database, use:
+```sql
+SHOW TABLES;
+```
+
+Output:
+```sql
+MariaDB [company]> SHOW TABLES;
++--------------------+
+| Tables_in_company  |
++--------------------+
+| employees          |
++--------------------+
+1 row in set (0.001 sec)
+```
+
+#### Loading Records into a Table and Retrieving Them (INSERT INTO – SELECT)
+
+To insert a record into a table, use:
+```sql
+INSERT INTO table_name (column1, column2, ...)
+VALUES (value1, value2, ...);
+```
+
+Example:
+```sql
+INSERT INTO employees (emp_id, emp_name, emp_salary, emp_hire_date)
+VALUES (1, 'John Doe', 75000.00, '2022-01-15');
+
+Query OK, 1 row affected (0.016 sec)
+```
+
+To select all records from a table, use:
+```sql
+SELECT * FROM table_name;
+```
+
+Output:
+```sql
+MariaDB [company]> SELECT * FROM employees;
++--------+----------+------------+--------------+
+| emp_id | emp_name | emp_salary | emp_hire_date|
++--------+----------+------------+--------------+
+|      1 | John Doe |   75000.00 | 2022-01-15   |
++--------+----------+------------+--------------+
+1 row in set (0.001 sec)
+```
+### Data Types
+
+Data Type | Description | Range / Size
+--- | --- | ---
+`CHAR` | Fixed length string | 0 - 255
+`VARCHAR` | Variable length string | 0 - 255
+`TINYTEXT` | Short text string | 0 - 255
+`TEXT` | Text string | 0 - 65,535
+`BLOB` | Binary large object | 0 - 65,535
+`MEDIUMTEXT` | Medium length text string | 0 - 16,777,215
+`MEDIUMBLOB` | Medium binary large object | 0 - 16,777,215
+`LONGTEXT` | Long text string | 0 - 4,294,967,295
+`LONGBLOB` | Long binary large object | 0 - 4,294,967,295
+`TINYINT` x | Integer | -128 to 127
+`SMALLINT` x | Integer | -32,768 to 32,767
+`MEDIUMINT` x | Integer | -8,388,608 to 8,388,607
+`INT` x | Integer | -2,147,483,648 to 2,147,483,647
+`BIGINT` x | Integer | -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+`FLOAT` | Decimal (precise to 23 digits) | Precision up to 23 digits
+`DOUBLE` | Decimal (24 to 53 digits) | Precision up to 53 digits
+`DECIMAL` | Fixed-point decimal | Precision and scale defined manually
+`DATE` | Date | YYYY-MM-DD
+`DATETIME` | Date and time | YYYY-MM-DD HH:MM:SS
+`TIMESTAMP` | Timestamp | YYYYMMDDHHMMSS
+`TIME` | Time | HH:MM:SS
+`ENUM` | One of a set of predefined values | Predefined options
+`SET` | Multiple values from a set | Selection of predefined options
+
+### Select Queries
+
+Operation | Query
+--- | ---
+Select all columns | `SELECT * FROM tbl;`
+Select specific columns | `SELECT col1, col2 FROM tbl;`
+Select only unique records | `SELECT DISTINCT col FROM tbl WHERE condition;`
+Column alias | `SELECT col AS newname FROM tbl;`
+Order results | `SELECT * FROM tbl ORDER BY col [ASC | DESC];`
+Group results | `SELECT col1, SUM(col2) FROM tbl GROUP BY col1;`
+
+### Creating and Modifying
+
+Operation | Query
+--- | ---
+Create a database | `CREATE DATABASE db_name;`
+Select a database | `USE db_name;`
+List databases on the server | `SHOW DATABASES;`
+Show a table's fields | `DESCRIBE tbl;`
+Create a new table | `CREATE TABLE tbl (field1 datatype, field2 datatype);`
+Insert data into a table | `INSERT INTO tbl VALUES ("val1", "val2");`
+Delete a row | `DELETE FROM tbl WHERE condition;`
+Add a column | `ALTER TABLE tbl ADD COLUMN col datatype;`
+Remove a column | `ALTER TABLE tbl DROP COLUMN col;`
+Make a column a primary key | `ALTER TABLE tbl ADD PRIMARY KEY (col);`
+Return only 1 row matching query | `SELECT * FROM tbl LIMIT 1;`
+Amend the values of a column | `UPDATE tbl SET column1="val1" WHERE condition;`
+Clear all values (leaving table structure) | `TRUNCATE TABLE tbl;`
+Delete the table | `DROP TABLE tbl;`
+Delete the database | `DROP DATABASE db_name;`
+
+### Matching Data
+
+Operation | Query
+--- | ---
+Matching data using LIKE | `SELECT * FROM tbl WHERE col LIKE '%value%';`
+Matching data using REGEX | `SELECT * FROM tbl WHERE col RLIKE 'regular_expression';`
+
+### Joins
+
+Join Type | Description | Query
+--- | --- | ---
+`INNER JOIN` | Returns only matching rows from both tables | `SELECT * FROM tbl1 INNER JOIN tbl2 ON tbl1.id = tbl2.id;`
+`OUTER JOIN` | Returns all rows from both tables, with NULLs where there is no match | `SELECT * FROM tbl1 OUTER JOIN tbl2 ON tbl1.id = tbl2.id;`
+`LEFT JOIN` | Returns all rows from the left table, with NULLs where there is no match in the right table | `SELECT * FROM tbl1 LEFT JOIN tbl2 ON tbl1.id = tbl2.id;`
+`RIGHT JOIN` | Returns all rows from the right table, with NULLs where there is no match in the left table | `SELECT * FROM tbl1 RIGHT JOIN tbl2 ON tbl1.id = tbl2.id;`
+
+### String Functions
+
+Function | Description | Query
+--- | --- | ---
+`STRCMP` | Compare two strings | `STRCMP("str1", "str2");`
+`LOWER` | Convert string to lower case | `LOWER("str");`
+`UPPER` | Convert string to upper case | `UPPER("str");`
+`LTRIM` | Remove leading spaces | `LTRIM("str");`
+`SUBSTRING` | Extract a substring | `SUBSTRING("str", index1, index2);`
+`CONCAT` | Concatenate two strings | `CONCAT("str1", "str2");`
+
+### MySQL Calculation Functions
+
+Function | Description | Query
+--- | --- | ---
+`COUNT` | Count the number of rows | `COUNT(col);`
+`AVG` | Calculate average value | `AVG(col);`
+`MIN` | Get the minimum value | `MIN(col);`
+`MAX` | Get the maximum value | `MAX(col);`
+`SUM` | Calculate the sum of values | `SUM(col);`
+
+### Create Table with Auto-Incrementing Primary Key
+
+```js
+CREATE TABLE table_name (
+  id INT AUTO_INCREMENT,
+  column1 VARCHAR(2),
+  column2 VARCHAR(32),
+  PRIMARY KEY (id)
+);
+```

@@ -1,0 +1,116 @@
+---
+title: Introduction
+description: 'Welcome to Terminal Docs'
+icon: Book
+---
+## Terminal Docs
+Welcome to Terminal Docs — A personal GitBook resource for cybersecurity and system administration. This collection covers everything from penetration testing to system management across multiple platforms.
+
+![Image](/banner.png)
+## Main Categories
+
+<Cards cols={2}>
+  <Card title="Resources" icon={<PlayIcon />} href="/docs/resources/resources">
+    Curated collection of cybersecurity tools and learning resources
+  </Card>
+  <Card title="Linux" icon={<FilesIcon />} href="/docs/Linux">
+    Linux system administration, virtualization, and command-line tools
+  </Card>
+  <Card title="Windows" icon={<TerminalIcon />} href="/docs/Windows">
+    Windows system management, disk partitioning, and boot configuration
+  </Card>
+  <Card title="Networks" icon={<FilesIcon />} href="/docs/Networks">
+    Network configuration, Cisco commands, and subnet management
+  </Card>
+  <Card title="Pentesting Networks" icon={<FilesIcon />} href="/docs/PentestingNetworks">
+    Network penetration testing, port-specific attacks, and enumeration
+  </Card>
+  <Card title="Pentesting Linux" icon={<FilesIcon />} href="/docs/PentestingLinux">
+    Linux privilege escalation, enumeration, and exploitation techniques
+  </Card>
+  <Card title="Pentesting Windows" icon={<FilesIcon />} href="/docs/PentestingWindows">
+    Windows Active Directory attacks, password dumping, and privilege escalation
+  </Card>
+  <Card title="Pentesting Web" icon={<FilesIcon />} href="/docs/PentestingWeb">
+    Web application vulnerabilities, SQL injection, and XSS exploitation
+  </Card>
+</Cards>
+
+### Index
+
+#### **[Pentesting Windows](/docs/PentestingWindows)**
+- [Windows Privilege Escalation](/docs/PentestingWindows/enumeration)
+- [Active Directory Enumeration](/docs/PentestingWindows/Active-Directory/activedirectoryenum)
+- [Password Spraying](/docs/PentestingWindows/passwordspraying)
+- [Mimikatz Password Dumping](/docs/PentestingWindows/mimikatz)
+- [SharpGPOAbuse](/docs/PentestingWindows/sharpgpoabuse)
+- [Windows Attacks](/docs/PentestingWindows/attacks)
+
+**Active Directory Tools:**
+- [RBCD Attack](/docs/PentestingWindows/Active-Directory/rbcd)
+- [Kerbrute](/docs/PentestingWindows/kerbrute)
+
+**Impacket Suite:**
+- [Impacket Overview](/docs/PentestingWindows/Impacket/impacket)
+- [GetNPUsers](/docs/PentestingWindows/Impacket/getnpusers)
+
+#### **[Pentesting Web](/docs/PentestingWeb)**
+- [Cross-Site Scripting (XSS)](/docs/PentestingWeb/xss)
+- [Server-Side Template Injection (SSTI)](/docs/PentestingWeb/ssti)
+- [Local File Inclusion](/docs/PentestingWeb/localfileincl)
+- [Directory Traversal](/docs/PentestingWeb/directorytraversal)
+- [Command Injection](/docs/PentestingWeb/commandinjection)
+- [File Upload Vulnerabilities](/docs/PentestingWeb/file)
+
+**SQL Injection:**
+- [SQL Injection Overview](/docs/PentestingWeb/SQL-Injection/sqlinjection)
+- [Oracle SQL Injection](/docs/PentestingWeb/SQL-Injection/oracle)
+- [MSSQL Injection](/docs/PentestingWeb/SQL-Injection/mssql)
+
+#### **[Pentesting Linux](/docs/PentestingLinux)**
+- [Basic Linux Enumeration](/docs/PentestingLinux/Basicenumeration)
+- [Hash Identification & Cracking](/docs/PentestingLinux/identify_hash_and_crack_it)
+- [File Transfer Techniques](/docs/PentestingLinux/transfering_files)
+
+**Privilege Escalation:**
+- [adm Group Exploitation](/docs/PentestingLinux/PrivilegeEscalationGroups/admgroup)
+- [lxc/lxd Group Exploitation](/docs/PentestingLinux/PrivilegeEscalationGroups/lxd-lxd)
+
+**Linux Cheatsheets:**
+- [General Cheatsheets](/docs/PentestingLinux/cheatsheets/cheatsheets)
+- [Metasploit Framework](/docs/PentestingLinux/cheatsheets/metasploit)
+- [MSFvenom Payload Generator](/docs/PentestingLinux/cheatsheets/msfvenom)
+- [Netcat](/docs/PentestingLinux/cheatsheets/netcat)
+- [NetExec](/docs/PentestingLinux/cheatsheets/netexec)
+- [SQLMap](/docs/PentestingLinux/cheatsheets/sqlmap)
+
+#### **[Pentesting Networks](/docs/PentestingNetworks)**
+- [Network Enumeration](/docs/PentestingNetworks/enumeration)
+
+**Port-Specific Guides:**
+- [SMB (Ports 139/445)](/docs/PentestingNetworks/Pentesting-Ports/smb139-445)
+- [Redis (Port 6379)](/docs/PentestingNetworks/Pentesting-Ports/redis6379)
+- [MSRPC (Port 135)](/docs/PentestingNetworks/Pentesting-Ports/msrpc135)
+- [Kerberos (Port 88)](/docs/PentestingNetworks/Pentesting-Ports/kerberos88)
+- [Docker Registry (Port 5000)](/docs/PentestingNetworks/Pentesting-Ports/dockerregistry5000)
+
+### System Administration
+
+#### **[Linux](/docs/Linux)**
+- [Proxmox Virtualization](/docs/Linux/proxmox/proxmox)
+
+**Linux Cheatsheets:**
+- [General Cheatsheets](/docs/Linux/cheatsheets/cheatsheets)
+- [Docker Commands](/docs/Linux/cheatsheets/docker)
+- [Git Commands](/docs/Linux/cheatsheets/git)
+- [MySQL Commands](/docs/Linux/cheatsheets/mysql)
+
+#### **[Windows](/docs/Windows)**
+- [Disk Management with Diskpart](/docs/Windows/partitions/diskpart)
+- [MBR and Boot Partitions](/docs/Windows/partitions/bootmbr)
+- [Boot Configuration with BCDEdit](/docs/Windows/bootmgr/bcdedit)
+
+#### **[Networks](/docs/Networks)**
+- [Basic Cisco Commands](/docs/Networks/ciscocommands)
+- [Cisco Security Commands](/docs/Networks/ciscosecurity)
+- [IPv4 Subnet Tables](/docs/Networks/subnets)

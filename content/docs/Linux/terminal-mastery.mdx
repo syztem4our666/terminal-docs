@@ -1,0 +1,551 @@
+---
+title: Linux Terminal
+description: "Linux terminal - Navigation"
+---
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Essential Navigation](#essential-navigation)
+- [File System Operations](#file-system-operations)
+- [Text Manipulation](#text-manipulation)
+- [Process Management](#process-management)
+- [Network Operations](#network-operations)
+- [Terminal Productivity](#terminal-productivity)
+- [Advanced Techniques](#advanced-techniques)
+- [Customization & Shell Configuration](#customization--shell-configuration)
+- [Troubleshooting & Debugging](#troubleshooting--debugging)
+
+---
+
+## Getting Started
+
+### Understanding the Shell
+
+The Linux terminal is your gateway to system control. The shell (typically Bash) interprets your commands and interacts with the kernel.
+
+### 1. Open Your Terminal
+```bash
+# Common ways to open terminal:
+Ctrl+Alt+T                    # Ubuntu/Debian shortcut
+Super + T                     # Pop!_OS shortcut
+Applications → Terminal        # GUI method
+```
+
+### 2. Identify Your Shell
+```bash
+echo $SHELL                    # Shows current shell
+which bash                     # Shows bash location
+bash --version                 # Shows bash version
+```
+
+### 3. Basic Shell Features
+- **Tab Completion**: Press Tab to autocomplete commands and paths
+- **Command History**: Use ↑/↓ arrows to navigate previous commands
+- **Command History Search**: `Ctrl+R` to search history
+
+### Terminal Etiquette
+
+- **Case Sensitivity**: Linux commands are case-sensitive
+- **Spaces Matter**: Use quotes for filenames with spaces
+- **Permissions**: Respect file permissions and use `sudo` carefully
+- **Tab Completion**: Always use Tab to avoid typos
+
+---
+
+## Essential Navigation
+
+### Directory Navigation
+
+```bash
+pwd                              # Print working directory
+cd /path/to/directory            # Change directory
+cd ~                             # Go to home directory
+cd -                             # Go to previous directory
+cd ..                            # Go to parent directory
+cd ../..                         # Go up two directories
+```
+
+### Directory Listing & Information
+
+```bash
+ls                               # List files (basic)
+ls -la                           # List all files with details
+ls -lh                           # Human-readable file sizes
+ls -lt                           # Sort by modification time
+ls -R                            # Recursive listing
+tree                             # Directory tree structure
+tree -L 2                        # Tree with 2 levels deep
+```
+
+```
+home/
+├── user/
+│   ├── documents/
+│   ├── downloads/
+│   └── projects/
+│       ├── webapp/
+│       └── scripts/
+```
+
+### Path Understanding
+
+```bash
+# Absolute path (from root)
+/home/user/documents/file.txt
+
+# Relative path (from current directory)
+./documents/file.txt
+
+# Parent directory reference
+../other_directory/file.txt
+
+# Home directory shortcut
+~/documents/file.txt
+```
+
+---
+
+## File System Operations
+
+### File Operations
+
+```bash
+# Creating files
+touch newfile.txt               # Create empty file
+echo "Hello World" > file.txt   # Create file with content
+cat > file.txt << EOF           # Multi-line file creation
+Line 1
+Line 2
+EOF
+
+# Copying files
+cp source.txt destination.txt    # Copy file
+cp -r source_dir/ dest_dir/     # Copy directory recursively
+cp -a source.txt backup.txt      # Copy with permissions preserved
+
+# Moving/Renaming files
+mv old.txt new.txt              # Rename file
+mv file.txt /path/to/location/  # Move file
+
+# Removing files
+rm file.txt                     # Remove file
+rm -r directory/                # Remove directory recursively
+rm -rf directory/               # Force remove directory
+```
+
+### File Information & Searching
+
+```bash
+# File information
+file filename                   # Determine file type
+stat filename                   # Detailed file information
+du -h filename                 # File size in human-readable format
+
+# Finding files
+find . -name "*.txt"           # Find .txt files in current directory
+find / -name "config" 2>/dev/null  # Find files named config system-wide
+locate filename                # Fast file location search
+which command                  # Find command location
+whereis command                # Find command binary and source
+
+# Content searching
+grep "pattern" file.txt        # Search for pattern in file
+grep -r "pattern" /path/       # Recursive search
+grep -i "pattern" file.txt     # Case-insensitive search
+grep -n "pattern" file.txt     # Show line numbers
+```
+
+---
+
+## Text Manipulation
+
+### Viewing Files
+
+```bash
+cat file.txt                    # Display entire file
+less file.txt                   # Scrollable file viewer
+head -n 10 file.txt            # Show first 10 lines
+tail -n 10 file.txt            # Show last 10 lines
+tail -f log.txt                # Follow log file in real-time
+```
+
+### Text Editing
+
+```bash
+# Using nano (beginner-friendly)
+nano filename                  # Open file in nano editor
+
+# Using vim (powerful)
+vim filename                   # Open file in vim editor
+# vim basics:
+# i  - Insert mode
+# Esc - Normal mode
+# :w  - Save
+# :q  - Quit
+# :wq - Save and quit
+# :q! - Quit without saving
+```
+
+### Text Processing
+
+```bash
+# Sorting
+sort file.txt                  # Sort lines alphabetically
+sort -r file.txt               # Reverse sort
+sort -n file.txt               # Numeric sort
+sort -u file.txt               # Unique lines only
+
+# Removing duplicates
+uniq file.txt                  # Remove adjacent duplicate lines
+uniq -c file.txt               # Count occurrences
+
+# Counting
+wc file.txt                    # Word count (lines, words, characters)
+wc -l file.txt                 # Line count only
+
+# Extracting columns
+cut -d',' -f1 file.csv         # Extract first column (CSV)
+cut -d' ' -f1,3 file.txt      # Extract fields 1 and 3 (space delimited)
+```
+
+---
+
+## Process Management
+
+### Process Information
+
+```bash
+ps                              # Show current processes
+ps aux                          # Show all processes in detail
+ps -ef                          # Alternative process listing
+top                             # Interactive process viewer
+htop                            # Enhanced process viewer (if installed)
+
+# Find specific process
+ps aux | grep processname       # Find process by name
+pgrep processname               # Find process ID
+```
+
+### Process Control
+
+```bash
+# Background processes
+command &                       # Run command in background
+jobs                            # List background jobs
+fg %1                           # Bring job 1 to foreground
+bg %1                           # Resume job 1 in background
+kill %1                         # Kill background job
+
+# Process termination
+kill PID                        # Gracefully terminate process
+kill -9 PID                     # Force kill process
+killall processname             # Kill all processes by name
+
+# Service management
+systemctl status servicename     # Check service status
+systemctl start servicename     # Start service
+systemctl stop servicename      # Stop service
+systemctl restart servicename   # Restart service
+systemctl enable servicename     # Enable at boot
+```
+
+---
+
+## Network Operations
+
+### Network Information
+
+```bash
+# Network configuration
+ip addr                         # Show IP addresses (modern)
+ifconfig                        # Show IP addresses (legacy)
+ip route                        # Show routing table
+
+# Network connectivity
+ping google.com                 # Test connectivity
+ping -c 4 google.com            # Send 4 packets only
+traceroute google.com           # Trace route to destination
+netstat -tulnp                  # Show listening ports
+ss -tulnp                      # Modern netstat alternative
+```
+
+### Network Tools
+
+```bash
+# Downloading files
+wget https://example.com/file.zip  # Download file
+curl -O https://example.com/file   # Download with curl
+
+# File transfer
+scp file.txt user@host:/path/      # Secure copy
+rsync -av source/ dest/            # Efficient file sync
+
+# DNS queries
+nslookup domain.com                # DNS lookup
+dig domain.com                     # Detailed DNS query
+host domain.com                    # Simple DNS query
+```
+
+---
+
+## Terminal Productivity
+
+### Command Line Shortcuts
+
+```bash
+# History navigation
+!!                              # Repeat last command
+!$                              # Last argument of previous command
+!*                              # All arguments of previous command
+^old^new                        # Replace in last command
+
+# Cursor movement
+Ctrl+A                          # Move to beginning of line
+Ctrl+E                          # Move to end of line
+Ctrl+U                          # Delete from cursor to beginning
+Ctrl+K                          # Delete from cursor to end
+Ctrl+Y                          # Paste deleted text
+Ctrl+L                          # Clear screen
+
+# Tab completion
+Tab                             # Autocomplete
+Tab Tab                         # Show all possibilities
+```
+
+### Aliases and Functions
+
+```bash
+# Create aliases
+alias ll='ls -la'               # Shortcuts for common commands
+alias la='ls -la'
+alias update='sudo apt update && sudo apt upgrade'
+
+# Create functions
+mkcd() {
+    mkdir -p "$1"
+    cd "$1"
+}
+
+# Add to ~/.bashrc for persistence
+echo 'alias ll="ls -la"' >> ~/.bashrc
+source ~/.bashrc                # Reload bash configuration
+```
+
+### Command Chaining
+
+```bash
+# Sequential execution
+command1 && command2            # Run command2 only if command1 succeeds
+command1 || command2            # Run command2 only if command1 fails
+command1 ; command2             # Run command1, then command2
+
+# Piping
+command1 | command2             # Send output of command1 to command2
+command | tee file.txt          # Display output and save to file
+
+# Input/Output redirection
+command > file.txt              # Redirect output to file
+command >> file.txt             # Append output to file
+command < file.txt              # Read input from file
+```
+
+---
+
+## Advanced Techniques
+
+### Regular Expressions
+
+```bash
+# Basic regex with grep
+grep '^word' file.txt          # Lines starting with "word"
+grep 'word$' file.txt          # Lines ending with "word"
+grep '[0-9]' file.txt         # Lines containing numbers
+grep '\bword\b' file.txt      # Whole word "word"
+
+# Advanced regex
+grep -E 'word1|word2' file    # Multiple patterns
+grep -E '^[A-Z]' file        # Lines starting with uppercase
+```
+
+### Shell Scripting Basics
+
+```bash
+#!/bin/bash
+# Basic shell script structure
+
+# Variables
+NAME="Linux"
+echo "Welcome to $NAME terminal"
+
+# User input
+read -p "Enter your name: " username
+echo "Hello, $username!"
+
+# Conditional statements
+if [ -f "file.txt" ]; then
+    echo "File exists"
+else
+    echo "File does not exist"
+fi
+
+# Loops
+for i in {1..5}; do
+    echo "Iteration $i"
+done
+
+while true; do
+    echo "Press Ctrl+C to exit"
+    sleep 1
+done
+```
+
+### Performance Monitoring
+
+```bash
+# System monitoring
+free -h                        # Memory usage
+df -h                          # Disk usage
+iostat                         # I/O statistics
+vmstat                         # Virtual memory statistics
+uptime                         # System uptime and load
+
+# Process monitoring
+htop                           # Interactive process viewer
+iotop                          # I/O monitoring (if installed)
+nethogs                        # Network usage by process (if installed)
+```
+
+---
+
+## Customization & Shell Configuration
+
+### Bash Configuration
+
+```bash
+# ~/.bashrc customizations
+# Add these lines to your ~/.bashrc
+
+# Custom prompt
+PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+# Useful aliases
+alias ..='cd ..'
+alias ...='cd ../..'
+alias grep='grep --color=auto'
+alias ls='ls --color=auto'
+
+# Environment variables
+export EDITOR=vim
+export HISTSIZE=10000
+export HISTCONTROL=ignoredups
+```
+
+### Terminal Customization
+
+```bash
+# Colors in terminal
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
+# Custom functions
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2)   tar xjf "$1"     ;;
+            *.tar.gz)    tar xzf "$1"     ;;
+            *.bz2)       bunzip2 "$1"     ;;
+            *.rar)       unrar x "$1"     ;;
+            *.gz)        gunzip "$1"      ;;
+            *.tar)       tar xf "$1"      ;;
+            *.tbz2)      tar xjf "$1"     ;;
+            *.tgz)       tar xzf "$1"     ;;
+            *.zip)       unzip "$1"       ;;
+            *.Z)         uncompress "$1"  ;;
+            *.7z)        7z x "$1"        ;;
+            *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+```
+
+---
+
+## Troubleshooting & Debugging
+
+### Common Issues & Solutions
+
+```bash
+# Permission denied
+sudo command                    # Run with elevated privileges
+chmod +x script.sh             # Make script executable
+
+# Command not found
+which command                   # Check if command exists
+echo $PATH                     # Check PATH variable
+export PATH=$PATH:/new/path     # Add to PATH
+
+# Disk space issues
+df -h                          # Check disk usage
+du -sh * | sort -hr           # Find large files
+
+# Process issues
+ps aux | grep runaway          # Find problematic processes
+kill -9 PID                    # Force kill process
+
+# Network issues
+ping 8.8.8.8                  # Test basic connectivity
+nslookup domain.com            # Test DNS resolution
+netstat -tulnp                 # Check listening ports
+```
+
+### Debugging Techniques
+
+```bash
+# Enable debugging
+bash -x script.sh              # Debug bash script
+set -x                         # Enable debugging in current shell
+
+# Error handling
+set -e                          # Exit on error
+set -u                          # Exit on undefined variable
+set -o pipefail                # Exit on pipe failure
+
+# Logging
+command 2>&1 | tee log.txt     # Log both stdout and stderr
+command >> logfile.txt 2>&1     # Append all output to log
+```
+
+<Callout type="warning">
+Always test commands in a safe environment before running them on production systems. Some commands can cause data loss or system instability.
+</Callout>
+
+---
+
+## Further Learning
+
+### Recommended Commands to Master
+
+```bash
+# File operations
+find, grep, sed, awk, sort, uniq, wc
+# System monitoring
+top, htop, ps, netstat, iostat
+# Network tools
+curl, wget, ping, traceroute, ssh
+# Text editing
+nano, vim, emacs
+# Archiving
+tar, zip, unzip, gzip, bzip2
+```
+
+### Resources for Continued Learning
+
+- `man command` - Built-in manual pages
+- `tldr command` - Simplified command examples
+- [Linux Command Line Wiki](https://www.commandlinefu.com/)
+- [Explain Shell](https://explainshell.com/)
+
+---

