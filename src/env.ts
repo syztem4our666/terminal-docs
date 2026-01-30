@@ -11,7 +11,7 @@ export const env = createEnv({
     NEXT_PUBLIC_BASE_URL: z.preprocess(
       (val) =>
         val ??
-        (process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : val),
+        (process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'http://localhost:3000'),
       z.url()
     ),
   },
