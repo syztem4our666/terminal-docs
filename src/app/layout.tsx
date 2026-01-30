@@ -6,11 +6,12 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { Body } from './layout.client'
 import { Providers } from './providers'
 import 'katex/dist/katex.css'
+import { Analytics } from '@vercel/analytics/next'
 import { NextProvider } from 'fumadocs-core/framework/next'
+import { Banner } from 'fumadocs-ui/components/banner'
 import { TreeContextProvider } from 'fumadocs-ui/contexts/tree'
 import { source } from '@/lib/source'
 import { url } from '@/lib/url'
-import { Banner } from 'fumadocs-ui/components/banner'
 
 const geist = Geist({
   variable: '--font-sans',
@@ -57,7 +58,6 @@ export default function Layout({ children }: LayoutProps<'/'>) {
     >
       <Body tree={source.pageTree}>
         <Banner
-          variant="rainbow"
           rainbowColors={[
             'rgba(255,100,0, 0.5)',
             'rgba(255,100,0, 0.5)',
@@ -67,6 +67,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
             'rgba(255,100,0, 0.5)',
             'transparent',
           ]}
+          variant='rainbow'
         >
           Terminal Docs 💫
         </Banner>
@@ -75,6 +76,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
             <Providers>{children}</Providers>
           </TreeContextProvider>
         </NextProvider>
+        <Analytics />
       </Body>
     </html>
   )
