@@ -1,2 +1,2 @@
-export const owner = 'techwithanirudh'
-export const repo = 'fumadocs-starter'
+export const owner = 'syztem4our666'
+export const repo = 'terminal-docs'
