@@ -3,31 +3,34 @@ import type { LinkProps } from 'next/link'
 import Link from 'next/link'
 import type { ReactElement, ReactNode } from 'react'
 import { cn } from '@/lib/cn'
+import { BentoCard, BentoGrid } from "@/components/ui/bento-grid"
+import { Globe } from "@/components/ui/globe"
 
 export default function DocsPage(): ReactElement {
   return (
-    <main className='mx-auto flex w-full max-w-[1400px] flex-col px-4 py-16'>
-      <h1 className='font-semibold text-2xl md:text-3xl'>Terminal Docs</h1>
-      <p className='mt-1 text-fd-muted-foreground text-lg'>
-        Comprehensive cybersecurity and system administration documentation
-      </p>
+    
+    <main className="mx-auto flex w-full max-w-[1400px] flex-col px-4 py-16">
+      <div className="bg-background relative flex size-full max-w-full items-center justify-center overflow-hidden rounded-lg border px-40 pt-8 pb-40 md:pb-60">
+      <span className="pointer-events-none bg-gradient-to-b from-black to-gray-300/80 bg-clip-text text-center text-8xl leading-none font-semibold whitespace-pre-wrap text-transparent dark:from-white dark:to-slate-900/10">
+        Terminal Docs
+      </span>
+      <Globe className="top-25" />
+      <div className="pointer-events-none absolute inset-0 h-full bg-[radial-gradient(circle_at_50%_200%,rgba(0,0,0,0.2),rgba(255,255,255,0))]" />
+    </div>
+  <div className="mt-8">
+    <BentoCard
+      name="Documentation"
+      className="col-span-2"
+      background={<div />}
+      Icon={BookIcon}
+      description="Comprehensive cybersecurity and system administration documentation"
+      href="/docs"
+      cta="Go to docs"
+    />
+    
+  </div>
+</main>
 
-      <div className='mt-8 grid grid-cols-1 gap-4 text-left md:grid-cols-2'>
-        <DocumentationItem
-          description='Get started with the Fumadocs framework.'
-          href='/docs'
-          icon={{ icon: BookIcon, id: '(index)' }}
-          title='Documentation'
-        />
-
-        <DocumentationItem
-          description="Get started with Fumadocs's API reference feature."
-          href='/docs/api-reference'
-          icon={{ icon: WebhookIcon, id: 'api-reference' }}
-          title='API Reference'
-        />
-      </div>
-    </main>
   )
 }
 
