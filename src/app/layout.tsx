@@ -7,6 +7,7 @@ import { Body } from './layout.client'
 import { Providers } from './providers'
 import 'katex/dist/katex.css'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { NextProvider } from 'fumadocs-core/framework/next'
 import { Banner } from 'fumadocs-ui/components/banner'
 import { TreeContextProvider } from 'fumadocs-ui/contexts/tree'
@@ -77,6 +78,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
           </TreeContextProvider>
         </NextProvider>
         <Analytics />
+        <SpeedInsights />
       </Body>
     </html>
   )
